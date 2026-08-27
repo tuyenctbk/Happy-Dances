@@ -86,4 +86,6 @@
     <string name="share_app_dialog_message">Verbreite die Magie! Teile Happy Dances mit anderen Familien, Eltern und jungen Tänzern, die kreative Bewegung lieben.</string>
     <string name="share_app_action_share">Mit Freunden teilen 🚀</string>
     <string name="share_app_action_later">Vielleicht später</string>
+    <string name="share_app_chooser_title">Happy Dances teilen</string>
+    <string name="share_app_message_body">Hallo! Schau dir Happy Dances an, ein wunderbares Ballett- und Tanzstudio für Kleinkinder und Kinder. Lade es hier herunter: https://play.google.com/store/apps/details?id=%1$s</string>
 </resources>

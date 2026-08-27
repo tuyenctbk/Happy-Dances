@@ -86,4 +86,6 @@
     <string name="share_app_dialog_message">Spread the magic! Share Happy Dances with other families, parents, and young dancers who love creative movement.</string>
     <string name="share_app_action_share">Share with Friends 🚀</string>
     <string name="share_app_action_later">Maybe Later</string>
+    <string name="share_app_chooser_title">Share Happy Dances</string>
+    <string name="share_app_message_body">Hey! Check out Happy Dances, a wonderful ballet and creative dance movement learning studio for toddlers and kids. Download here: https://play.google.com/store/apps/details?id=%1$s</string>
 </resources>

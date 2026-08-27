@@ -603,12 +603,14 @@ class MainActivity : ComponentActivity() {
                             Button(
                                 onClick = {
                                     viewModel.dismissShareAppDialog()
+                                    val shareBody = context.getString(R.string.share_app_message_body, context.packageName)
+                                    val chooserTitle = context.getString(R.string.share_app_chooser_title)
                                     val sendIntent = Intent().apply {
                                         action = Intent.ACTION_SEND
-                                        putExtra(Intent.EXTRA_TEXT, "Hey! Check out Happy Dances, a wonderful ballet and creative dance movement learning studio for toddlers and kids. Download here: https://play.google.com/store/apps/details?id=${context.packageName}")
+                                        putExtra(Intent.EXTRA_TEXT, shareBody)
                                         type = "text/plain"
                                     }
-                                    val shareIntent = Intent.createChooser(sendIntent, "Share Happy Dances")
+                                    val shareIntent = Intent.createChooser(sendIntent, chooserTitle)
                                     context.startActivity(shareIntent)
                                 },
                                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF2563EB)),
