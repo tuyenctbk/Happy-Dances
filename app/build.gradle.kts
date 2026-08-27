@@ -1,4 +1,12 @@
 import com.google.gms.googleservices.GoogleServicesPlugin.MissingGoogleServicesStrategy
+import java.util.Properties
+
+val localProperties = Properties().apply {
+  val localPropertiesFile = rootProject.file("local.properties")
+  if (localPropertiesFile.exists()) {
+    localPropertiesFile.inputStream().use { load(it) }
+  }
+}
 
 plugins {
   alias(libs.plugins.android.application)
@@ -25,14 +33,32 @@ android {
 
   signingConfigs {
     create("release") {
-      val keystorePath = System.getenv("KEYSTORE_PATH") ?: "${rootDir}/my-upload-key.jks"
-      storeFile = file(keystorePath)
-      storePassword = System.getenv("STORE_PASSWORD")
-      keyAlias = "upload"
-      keyPassword = System.getenv("KEY_PASSWORD")
+      val keyFile = localProperties.getProperty("RELEASE_STORE_FILE")
+        ?: localProperties.getProperty("storeFile")
+        ?: System.getenv("RELEASE_STORE_FILE")
+        ?: System.getenv("KEYSTORE_PATH")
+        ?: "common_release_key.jks"
+      storeFile = if (file(keyFile).isAbsolute) file(keyFile) else rootProject.file(keyFile)
+      storePassword = localProperties.getProperty("RELEASE_STORE_PASSWORD")
+        ?: localProperties.getProperty("storePassword")
+        ?: System.getenv("RELEASE_STORE_PASSWORD")
+        ?: System.getenv("STORE_PASSWORD")
+        ?: "dpadhero123"
+      keyAlias = localProperties.getProperty("RELEASE_KEY_ALIAS")
+        ?: localProperties.getProperty("keyAlias")
+        ?: System.getenv("RELEASE_KEY_ALIAS")
+        ?: System.getenv("KEY_ALIAS")
+        ?: "dpad_hero_alias"
+      keyPassword = localProperties.getProperty("RELEASE_KEY_PASSWORD")
+        ?: localProperties.getProperty("keyPassword")
+        ?: System.getenv("RELEASE_KEY_PASSWORD")
+        ?: System.getenv("KEY_PASSWORD")
+        ?: "dpadhero123"
     }
     create("debugConfig") {
-      storeFile = file("${rootDir}/debug.keystore")
+      val rootDebugKeystore = rootProject.file("debug.keystore")
+      val userHomeDebugKeystore = file("${System.getProperty("user.home")}/.android/debug.keystore")
+      storeFile = if (rootDebugKeystore.exists()) rootDebugKeystore else userHomeDebugKeystore
       storePassword = "android"
       keyAlias = "androiddebugkey"
       keyPassword = "android"
