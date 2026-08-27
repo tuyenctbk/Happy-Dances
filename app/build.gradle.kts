@@ -38,7 +38,14 @@ android {
         ?: System.getenv("RELEASE_STORE_FILE")
         ?: System.getenv("KEYSTORE_PATH")
         ?: "common_release_key.jks"
-      storeFile = if (file(keyFile).isAbsolute) file(keyFile) else rootProject.file(keyFile)
+      val resolvedFile = if (file(keyFile).isAbsolute) {
+        file(keyFile)
+      } else if (rootProject.file(keyFile).exists()) {
+        rootProject.file(keyFile).absoluteFile
+      } else {
+        file(keyFile).absoluteFile
+      }
+      storeFile = resolvedFile
       storePassword = localProperties.getProperty("RELEASE_STORE_PASSWORD")
         ?: localProperties.getProperty("storePassword")
         ?: System.getenv("RELEASE_STORE_PASSWORD")
