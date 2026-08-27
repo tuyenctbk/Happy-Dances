@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    android:width="320dp"
+    android:height="180dp"
+    android:viewportWidth="320"
+    android:viewportHeight="180">
+
+    <!-- Background Gradient -->
+    <path
+        android:pathData="M0,0h320v180h-320z">
+        <aapt:attr name="android:fillColor">
+            <gradient
+                android:startX="0"
+                android:startY="0"
+                android:endX="320"
+                android:endY="180"
+                android:type="linear">
+                <item android:offset="0.0" android:color="#FFF0F5"/>
+                <item android:offset="0.5" android:color="#FFD1DC"/>
+                <item android:offset="1.0" android:color="#AEC6CF"/>
+            </gradient>
+        </aapt:attr>
+    </path>
+
+    <!-- Decorative Stage Arc / Spotlight Glow -->
+    <path
+        android:pathData="M0,180 Q160,80 320,180 Z"
+        android:fillColor="#33FFFFFF"/>
+
+    <!-- Left Ballet Slipper Motif -->
+    <group
+        android:translateX="75"
+        android:translateY="40"
+        android:scaleX="1.2"
+        android:scaleY="1.2">
+        <!-- Slipper base -->
+        <path
+            android:pathData="M15,10 C25,5 40,15 35,45 C32,60 18,70 10,65 C2,60 0,40 5,25 Z"
+            android:fillColor="#E87A90"/>
+        <!-- Slipper Highlight -->
+        <path
+            android:pathData="M16,14 C23,10 32,18 29,40 C27,52 17,58 12,55"
+            android:strokeColor="#FFFFFF"
+            android:strokeWidth="2"
+            android:strokeLineCap="round"/>
+        <!-- Ribbons -->
+        <path
+            android:pathData="M12,20 C18,12 28,10 32,4 M8,32 C15,22 28,24 35,18"
+            android:strokeColor="#FFC1CC"
+            android:strokeWidth="3"
+            android:strokeLineCap="round"/>
+    </group>
+
+    <!-- Right Ballet Slipper Motif -->
+    <group
+        android:translateX="115"
+        android:translateY="45"
+        android:scaleX="1.2"
+        android:scaleY="1.2">
+        <path
+            android:pathData="M10,12 C20,6 36,14 32,44 C29,58 16,68 8,64 C1,59 0,38 4,24 Z"
+            android:fillColor="#E87A90"/>
+        <path
+            android:pathData="M11,16 C18,11 28,18 26,39 C24,50 15,56 10,53"
+            android:strokeColor="#FFFFFF"
+            android:strokeWidth="2"
+            android:strokeLineCap="round"/>
+        <path
+            android:pathData="M10,22 C16,14 26,12 30,6 M6,34 C13,24 26,26 33,20"
+            android:strokeColor="#FFC1CC"
+            android:strokeWidth="3"
+            android:strokeLineCap="round"/>
+    </group>
+
+    <!-- Star / Sparkles decoration -->
+    <!-- Star 1 -->
+    <path
+        android:pathData="M190,40 L193,48 L201,51 L193,54 L190,62 L187,54 L179,51 L187,48 Z"
+        android:fillColor="#FFD54F"/>
+    <!-- Star 2 -->
+    <path
+        android:pathData="M245,65 L247,71 L253,73 L247,75 L245,81 L243,75 L237,73 L243,71 Z"
+        android:fillColor="#FFD54F"/>
+    <!-- Star 3 -->
+    <path
+        android:pathData="M60,110 L62,115 L67,117 L62,119 L60,124 L58,119 L53,117 L58,115 Z"
+        android:fillColor="#FFFFFF"/>
+
+    <!-- Happy Dances Brand Title Elements -->
+    <group
+        android:translateX="175"
+        android:translateY="85">
+        <!-- Outer glow line for brand banner -->
+        <path
+            android:pathData="M0,45 L130,45"
+            android:strokeColor="#80FFFFFF"
+            android:strokeWidth="3"
+            android:strokeLineCap="round"/>
+    </group>
+
+</vector>

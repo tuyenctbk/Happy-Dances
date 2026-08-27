@@ -1,0 +1,6 @@
+{
+  "name": "Happy Dances",
+  "description": "A 100% free virtual dance studio and creative movement platform for kids. Adapts from playful storytelling for toddlers into ballet basics and junior technical academy training, with local offline progress saving.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

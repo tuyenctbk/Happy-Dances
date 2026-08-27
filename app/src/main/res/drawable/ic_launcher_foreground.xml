@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <!-- Glowing magical background circle behind shoes -->
+    <path
+        android:fillColor="#1AFFFFFF"
+        android:pathData="M54,54m-38,0a38,38 0,1 1,76 0a38,38 0,1 1,-76 0" />
+
+    <!-- Twinkling Star top-right -->
+    <path
+        android:fillColor="#FFFFE082"
+        android:pathData="M80,24 L82,29 L87,29 L83,32 L85,37 L80,34 L75,37 L77,32 L73,29 L78,29 Z" />
+
+    <!-- Twinkling Star top-left -->
+    <path
+        android:fillColor="#FFFFE082"
+        android:pathData="M28,32 L30,36 L34,36 L31,39 L32,43 L28,40 L24,43 L25,39 L22,36 L26,36 Z" />
+
+    <!-- Grand Twinkling Star behind slippers -->
+    <path
+        android:fillColor="#40FFFFF0"
+        android:pathData="M54,16 L57,28 L69,28 L59,35 L63,47 L54,39 L45,47 L49,35 L39,28 L51,28 Z" />
+
+    <!-- Stylized Ballet Pointe Shoes -->
+    <!-- Left Shoe Ribbon -->
+    <path
+        android:strokeColor="#FFFFFFFF"
+        android:strokeWidth="3.5"
+        android:strokeLineCap="round"
+        android:fillColor="#00000000"
+        android:pathData="M44,40 Q49,46 54,40" />
+    <path
+        android:strokeColor="#FFFFFFFF"
+        android:strokeWidth="3.5"
+        android:strokeLineCap="round"
+        android:fillColor="#00000000"
+        android:pathData="M54,40 Q49,34 44,40" />
+
+    <!-- Right Shoe Ribbon -->
+    <path
+        android:strokeColor="#FFFFFFFF"
+        android:strokeWidth="3.5"
+        android:strokeLineCap="round"
+        android:fillColor="#00000000"
+        android:pathData="M54,40 Q59,46 64,40" />
+    <path
+        android:strokeColor="#FFFFFFFF"
+        android:strokeWidth="3.5"
+        android:strokeLineCap="round"
+        android:fillColor="#00000000"
+        android:pathData="M64,40 Q59,34 54,40" />
+
+    <!-- Left Ballet Shoe Body -->
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M40,46 C40,42 48,42 48,46 L48,68 C48,74 44,78 44,78 C44,78 40,74 40,68 Z" />
+    <!-- Inner shoe shadow/sole -->
+    <path
+        android:fillColor="#FFFFD1DC"
+        android:pathData="M42,47 C42,45 46,45 46,47 L46,67 C46,71 44,74 44,74 C44,74 42,71 42,67 Z" />
+
+    <!-- Right Ballet Shoe Body -->
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M60,46 C60,42 68,42 68,46 L68,68 C68,74 64,78 64,78 C64,78 60,74 60,68 Z" />
+    <!-- Inner shoe shadow/sole -->
+    <path
+        android:fillColor="#FFFFD1DC"
+        android:pathData="M62,47 C62,45 66,45 66,47 L66,67 C66,71 64,74 64,74 C64,74 62,71 62,67 Z" />
+
+    <!-- Sparkling star at bottom-right of slippers -->
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M74,72 L75.5,75 L78.5,75 L76,77 L77,80 L74,78 L71,80 L72,77 L69.5,75 L72.5,75 Z" />
+
+</vector>

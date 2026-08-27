@@ -1,0 +1,89 @@
+<resources>
+    <string name="app_name">Happy Dances</string>
+
+    <!-- Daily Dance & Challenge -->
+    <string name="daily_prompt_title">Tägliche Tanz-Quest 🩰</string>
+    <string name="daily_prompt_subtitle">Die magische Tanzbewegung und Fokusübung des Tages</string>
+    <string name="daily_challenge_tag">Heutige Spezial-Herausforderung 🌟</string>
+    <string name="daily_challenge_header">Tägliche Tanz-Challenge 🩰</string>
+    <string name="daily_challenge_steps_title">Tanzschritte &amp; Haltungsanleitung</string>
+    <string name="daily_challenge_done_badge">Herausforderung gemeistert! ⭐ +20 Sterne</string>
+    <string name="daily_challenge_claim_stars">Als erledigt markieren &amp; Sterne sammeln ⭐</string>
+    <string name="daily_challenge_review">Schritte wiederholen</string>
+    <string name="daily_challenge_button">Challenge starten 🌟</string>
+    <string name="daily_reminder_label">Tägliche Tanz-Erinnerung</string>
+    <string name="daily_reminder_active">Erinnerung: AN 🔔</string>
+    <string name="daily_reminder_inactive">Erinnerung: AUS 🔕</string>
+
+    <!-- Practice Countdown Timer -->
+    <string name="timer_button_label">Übungstimer ⏳</string>
+    <string name="timer_session_heading">Übungs-Countdown ⏳</string>
+    <string name="timer_focus_guide">Bleib konzentriert, halte das Gleichgewicht und bewege dich zur Musik!</string>
+    <string name="timer_completed_star">Tanzübung abgeschlossen! 🌟</string>
+    <string name="timer_focus_dancing">Konzentriert und anmutig tanzen!</string>
+    <string name="timer_tap_to_start">Tippe auf Start, wenn du bereit bist</string>
+    <string name="timer_action_reset">Zurücksetzen</string>
+    <string name="timer_start_session">Training starten 🩰</string>
+
+    <!-- Audio Player & Music Bar -->
+    <string name="audio_pause">Pause</string>
+    <string name="audio_play">Abspielen</string>
+    <string name="audio_looping_active">Schleife Aktiv</string>
+    <string name="audio_loop_ready">Schleife Bereit</string>
+    <string name="audio_choose_melody">Melodie wählen</string>
+
+    <!-- Dance Star Certificate -->
+    <string name="certificate_dialog_title">Offizielle Tanzstern-Urkunde 📜</string>
+    <string name="certificate_share_print">Urkunde teilen / drucken 🖨️</string>
+    <string name="certificate_save_to_passport">Im Pass speichern &amp; schließen ✨</string>
+    <string name="close_action">Schließen</string>
+
+    <!-- Navigation & Common UI -->
+    <string name="nav_studio">Studio</string>
+    <string name="nav_passport">Pass</string>
+    <string name="nav_story">Geschichte</string>
+    <string name="nav_profile">Profil</string>
+    <string name="nav_library">Tanzbibliothek</string>
+    <string name="keep_dancing">Weiter tanzen! 🩰</string>
+    <string name="back_to_map">Zurück zur Studio-Karte 🗺️</string>
+
+    <!-- Dance Library & Difficulty Categories -->
+    <string name="library_title">Tanzlektionen-Bibliothek</string>
+    <string name="library_subtitle">Entdecke spielerische Ballett- und Bewegungsabenteuer</string>
+    <string name="category_all">Alle Tänze</string>
+    <string name="category_toddler">Kleinkinder (3–5 Jahre)</string>
+    <string name="category_ballet_basics">Ballett-Grundlagen (6–8 Jahre)</string>
+    <string name="category_academy">Akademie (9–12 Jahre)</string>
+    <string name="category_favorites">Favoriten</string>
+    <string name="no_favorites_title">Noch keine Lieblingstänze gespeichert</string>
+    <string name="no_favorites_hint">Tippe auf das Herz-Symbol, um einen Tanz zu deinen Favoriten hinzuzufügen!</string>
+    <string name="no_lessons_found">Keine Lektionen gefunden</string>
+    <string name="search_placeholder">Lektionen, Geschichten oder Schritte suchen…</string>
+
+    <!-- Audio & Voice Guide Preferences -->
+    <string name="audio_preferences_title">Audio- &amp; Sprach-Einstellungen</string>
+    <string name="audio_preferences_subtitle">Passe die Musik und sprachgeführte Tanzanleitungen für Kleinkinder an.</string>
+    <string name="bg_music_title">Klassische Hintergrundmusik</string>
+    <string name="bg_music_enabled">Synthetisierte Melodien aktiviert</string>
+    <string name="bg_music_disabled">Stummgeschaltet / Aus</string>
+    <string name="voice_guide_title">Sprachgeführte Anleitungen</string>
+    <string name="voice_guide_enabled">Sagt Tanzschritte für Kleinkinder sanft an</string>
+    <string name="voice_guide_disabled">Lautlose Anweisungen</string>
+    <string name="test_voice_guide_button">Sprach-Coach testen 🔊</string>
+    <string name="stop_voice_guide_button">Sprach-Vorschau stoppen 🛑</string>
+
+    <!-- Gentle Warm-Up Stretch Reminder -->
+    <string name="warmup_stretch_title">2-Minuten Sanftes Aufwärm-Dehnen 🧘</string>
+    <string name="warmup_stretch_subtitle">Bereite Muskeln und Gelenke mit einer spielerischen Dehnübung vor dem Tanzen vor.</string>
+    <string name="warmup_stretch_action">Aufwärmen starten 🌸</string>
+
+    <!-- Rating & Sharing Dialog Prompts -->
+    <string name="rate_app_dialog_title">Gefällt dir Happy Dances? 🌟</string>
+    <string name="rate_app_dialog_message">Dein Feedback hilft uns, Ballett und Bewegung für Kinder noch zauberhafter zu machen! Möchtest du uns im Play Store bewerten?</string>
+    <string name="rate_app_action_rate">Jetzt bewerten 🌟</string>
+    <string name="rate_app_action_later">Vielleicht später</string>
+    <string name="share_app_dialog_title">Teile die Freude am Tanzen! 🩰</string>
+    <string name="share_app_dialog_message">Verbreite die Magie! Teile Happy Dances mit anderen Familien, Eltern und jungen Tänzern, die kreative Bewegung lieben.</string>
+    <string name="share_app_action_share">Mit Freunden teilen 🚀</string>
+    <string name="share_app_action_later">Vielleicht später</string>
+</resources>

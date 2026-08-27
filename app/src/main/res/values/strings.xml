@@ -1,0 +1,89 @@
+<resources>
+    <string name="app_name">Happy Dances</string>
+
+    <!-- Daily Dance & Challenge -->
+    <string name="daily_prompt_title">Daily Creative Dance Quest 🩰</string>
+    <string name="daily_prompt_subtitle">Today\'s magical dance move &amp; focus exercise</string>
+    <string name="daily_challenge_tag">Today\'s Special Challenge 🌟</string>
+    <string name="daily_challenge_header">Daily Dance Challenge 🩰</string>
+    <string name="daily_challenge_steps_title">Dance Steps &amp; Posture Guide</string>
+    <string name="daily_challenge_done_badge">Challenge Mastered! ⭐ +20 Stars</string>
+    <string name="daily_challenge_claim_stars">Mark Completed &amp; Claim Stars ⭐</string>
+    <string name="daily_challenge_review">Review Steps</string>
+    <string name="daily_challenge_button">Start Challenge 🌟</string>
+    <string name="daily_reminder_label">Daily Dance Reminder</string>
+    <string name="daily_reminder_active">Daily Reminder: ON 🔔</string>
+    <string name="daily_reminder_inactive">Daily Reminder: OFF 🔕</string>
+
+    <!-- Practice Countdown Timer -->
+    <string name="timer_button_label">Practice Timer ⏳</string>
+    <string name="timer_session_heading">Practice Session Timer ⏳</string>
+    <string name="timer_focus_guide">Stay focused, balance your posture, and move to the rhythm!</string>
+    <string name="timer_completed_star">Dance Session Complete! 🌟</string>
+    <string name="timer_focus_dancing">Focus &amp; Dance with Grace!</string>
+    <string name="timer_tap_to_start">Tap Start when ready to dance</string>
+    <string name="timer_action_reset">Reset</string>
+    <string name="timer_start_session">Start Practice 🩰</string>
+
+    <!-- Audio Player & Music Bar -->
+    <string name="audio_pause">Pause</string>
+    <string name="audio_play">Play</string>
+    <string name="audio_looping_active">Looping Active</string>
+    <string name="audio_loop_ready">Loop Ready</string>
+    <string name="audio_choose_melody">Choose Melody</string>
+
+    <!-- Dance Star Certificate -->
+    <string name="certificate_dialog_title">Official Dance Star Certificate 📜</string>
+    <string name="certificate_share_print">Share / Print Certificate 🖨️</string>
+    <string name="certificate_save_to_passport">Save to Passport &amp; Close ✨</string>
+    <string name="close_action">Close</string>
+
+    <!-- Navigation & Common UI -->
+    <string name="nav_studio">Studio</string>
+    <string name="nav_passport">Passport</string>
+    <string name="nav_story">Story</string>
+    <string name="nav_profile">Profile</string>
+    <string name="nav_library">Dance Library</string>
+    <string name="keep_dancing">Keep Dancing! 🩰</string>
+    <string name="back_to_map">Back to Studio Map 🗺️</string>
+
+    <!-- Dance Library & Difficulty Categories -->
+    <string name="library_title">Dance Lesson Library</string>
+    <string name="library_subtitle">Discover playful ballet &amp; movement journeys</string>
+    <string name="category_all">All Dances</string>
+    <string name="category_toddler">Toddler (Ages 3–5)</string>
+    <string name="category_ballet_basics">Ballet Basics (Ages 6–8)</string>
+    <string name="category_academy">Academy (Ages 9–12)</string>
+    <string name="category_favorites">Favorites</string>
+    <string name="no_favorites_title">No favorite dances saved yet</string>
+    <string name="no_favorites_hint">Tap the heart icon on any lesson to save it to your favorites!</string>
+    <string name="no_lessons_found">No lessons found</string>
+    <string name="search_placeholder">Search lessons, stories, or ballet steps…</string>
+
+    <!-- Audio & Voice Guide Preferences -->
+    <string name="audio_preferences_title">Audio &amp; Voice Preferences</string>
+    <string name="audio_preferences_subtitle">Customize music playback and toddler-friendly voice-guided dance step instructions.</string>
+    <string name="bg_music_title">Classical Background Music</string>
+    <string name="bg_music_enabled">Synthesized melodies enabled</string>
+    <string name="bg_music_disabled">Muted / Off</string>
+    <string name="voice_guide_title">Voice-Guided Instructions</string>
+    <string name="voice_guide_enabled">Speaks ballet steps for toddlers</string>
+    <string name="voice_guide_disabled">Silent instructions</string>
+    <string name="test_voice_guide_button">Test Voice Guide Coach 🔊</string>
+    <string name="stop_voice_guide_button">Stop Voice Preview 🛑</string>
+
+    <!-- Gentle Warm-Up Stretch Reminder -->
+    <string name="warmup_stretch_title">2-Minute Gentle Warm-Up Stretch 🧘</string>
+    <string name="warmup_stretch_subtitle">Prepare muscles and joints with a calm, playful stretch before dancing.</string>
+    <string name="warmup_stretch_action">Start Warm-Up 🌸</string>
+
+    <!-- Rating & Sharing Dialog Prompts -->
+    <string name="rate_app_dialog_title">Are you enjoying Happy Dances? 🌟</string>
+    <string name="rate_app_dialog_message">Your feedback helps us make ballet and creative movement even more magical for children and toddlers! Would you like to rate us on the Play Store?</string>
+    <string name="rate_app_action_rate">Rate Now 🌟</string>
+    <string name="rate_app_action_later">Maybe Later</string>
+    <string name="share_app_dialog_title">Share the Joy of Dance! 🩰</string>
+    <string name="share_app_dialog_message">Spread the magic! Share Happy Dances with other families, parents, and young dancers who love creative movement.</string>
+    <string name="share_app_action_share">Share with Friends 🚀</string>
+    <string name="share_app_action_later">Maybe Later</string>
+</resources>
