@@ -81,6 +81,8 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.TextButton
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.ui.res.stringResource
 import com.example.ui.screens.IntroLevelSelectionScreen
 import com.example.ui.screens.LessonScreen
@@ -245,6 +247,10 @@ class MainActivity : ComponentActivity() {
         val showShareAppDialog by viewModel.showShareAppDialog.collectAsState()
         val context = LocalContext.current
 
+        val configuration = LocalConfiguration.current
+        val screenWidthDp = configuration.screenWidthDp
+        val isWideDisplay = screenWidthDp >= 720
+
         Scaffold(
             modifier = Modifier.fillMaxSize(),
             floatingActionButton = {
@@ -255,7 +261,9 @@ class MainActivity : ComponentActivity() {
                         contentColor = Color.White,
                         shape = CircleShape,
                         elevation = FloatingActionButtonDefaults.elevation(6.dp),
-                        modifier = Modifier.testTag("voice_assistant_fab")
+                        modifier = Modifier
+                            .testTag("voice_assistant_fab")
+                            .dpadFocusable(CircleShape)
                     ) {
                         Icon(
                             imageVector = Icons.Default.Mic,
@@ -272,19 +280,39 @@ class MainActivity : ComponentActivity() {
                     enter = slideInVertically(initialOffsetY = { it }) + fadeIn(),
                     exit = slideOutVertically(targetOffsetY = { it }) + fadeOut()
                 ) {
-                    NavigationBar(
+                    Box(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .clip(RoundedCornerShape(topStart = 28.dp, topEnd = 28.dp))
-                            .border(
-                                width = 1.dp,
-                                color = if (isStorytelling) Color.White.copy(alpha = 0.4f) else Color(0x331E40AF),
-                                shape = RoundedCornerShape(topStart = 28.dp, topEnd = 28.dp)
-                            )
-                            .testTag("main_navigation_bar"),
-                        containerColor = if (isStorytelling) Color.White.copy(alpha = 0.95f) else Color(0xFFF8FAFC),
-                        tonalElevation = 4.dp
+                            .padding(bottom = if (isWideDisplay) 12.dp else 0.dp),
+                        contentAlignment = Alignment.Center
                     ) {
+                        NavigationBar(
+                            modifier = Modifier
+                                .then(
+                                    if (isWideDisplay) {
+                                        Modifier
+                                            .widthIn(max = 680.dp)
+                                            .clip(RoundedCornerShape(24.dp))
+                                            .border(
+                                                width = 1.dp,
+                                                color = if (isStorytelling) Color.White.copy(alpha = 0.5f) else Color(0x331E40AF),
+                                                shape = RoundedCornerShape(24.dp)
+                                            )
+                                    } else {
+                                        Modifier
+                                            .fillMaxWidth()
+                                            .clip(RoundedCornerShape(topStart = 28.dp, topEnd = 28.dp))
+                                            .border(
+                                                width = 1.dp,
+                                                color = if (isStorytelling) Color.White.copy(alpha = 0.4f) else Color(0x331E40AF),
+                                                shape = RoundedCornerShape(topStart = 28.dp, topEnd = 28.dp)
+                                            )
+                                    }
+                                )
+                                .testTag("main_navigation_bar"),
+                            containerColor = if (isStorytelling) Color.White.copy(alpha = 0.95f) else Color(0xFFF8FAFC),
+                            tonalElevation = 4.dp
+                        ) {
                         NavigationBarItem(
                             selected = currentScreen == "map",
                             onClick = { viewModel.navigateTo("map") },
@@ -471,6 +499,7 @@ class MainActivity : ComponentActivity() {
                                 .dpadFocusable(RoundedCornerShape(12.dp))
                         )
                     }
+                    }
                 }
             }
         ) { innerPadding ->
@@ -484,7 +513,10 @@ class MainActivity : ComponentActivity() {
                     .padding(innerPadding)
             }
 
-            Box(modifier = contentModifier) {
+            Box(
+                modifier = contentModifier,
+                contentAlignment = Alignment.TopCenter
+            ) {
                 when (currentScreen) {
                     "intro_level" -> IntroLevelSelectionScreen(
                         viewModel = viewModel,

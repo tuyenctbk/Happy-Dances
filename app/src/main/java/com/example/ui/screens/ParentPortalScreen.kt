@@ -14,8 +14,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import com.example.ui.components.dpadFocusable
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -103,6 +105,7 @@ fun ParentPortalScreen(viewModel: DanceViewModel) {
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
+                    .widthIn(max = 480.dp)
                     .padding(16.dp),
                 shape = RoundedCornerShape(24.dp),
                 colors = CardDefaults.cardColors(containerColor = Color.White.copy(alpha = 0.85f)),
@@ -218,14 +221,20 @@ fun ParentPortalScreen(viewModel: DanceViewModel) {
         }
     } else {
         // Unlocked settings panel
-        Column(
+        Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(Color(0xFFFFF9FB)) // Frosted Cream base
-                .verticalScroll(rememberScrollState())
-                .padding(20.dp)
-                .testTag("parent_portal_screen")
+                .background(Color(0xFFFFF9FB)), // Frosted Cream base
+            contentAlignment = Alignment.TopCenter
         ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .widthIn(max = 840.dp)
+                    .verticalScroll(rememberScrollState())
+                    .padding(20.dp)
+                    .testTag("parent_portal_screen")
+            ) {
             Text(
                 text = "Parent & Teacher Portal",
                 fontSize = 26.sp,
@@ -906,6 +915,7 @@ fun ParentPortalScreen(viewModel: DanceViewModel) {
             }
 
             Spacer(modifier = Modifier.height(48.dp))
+        }
         }
     }
 }

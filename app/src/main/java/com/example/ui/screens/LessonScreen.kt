@@ -33,14 +33,20 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.ui.text.style.TextOverflow
+import com.example.ui.components.dpadFocusable
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material.icons.filled.CameraAlt
@@ -198,14 +204,17 @@ fun StorybookIntroView(
                     )
                 )
             )
-            .padding(20.dp)
-            .testTag("storybook_intro_view")
+            .padding(16.dp)
+            .testTag("storybook_intro_view"),
+        contentAlignment = Alignment.Center
     ) {
         // Floating Top Header Controls
         Row(
             modifier = Modifier
                 .align(Alignment.TopCenter)
-                .fillMaxWidth(),
+                .fillMaxWidth()
+                .widthIn(max = 760.dp)
+                .padding(top = 28.dp, start = 8.dp, end = 8.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -219,6 +228,7 @@ fun StorybookIntroView(
                     .background(Color.White.copy(alpha = 0.85f))
                     .shadow(2.dp, CircleShape)
                     .testTag("close_storybook_intro")
+                    .dpadFocusable(CircleShape)
             ) {
                 Icon(imageVector = Icons.Default.Close, contentDescription = "Close Storybook", tint = Color(0xFF914D5D))
             }
@@ -238,6 +248,7 @@ fun StorybookIntroView(
                         .background(if (isSpeaking) Color(0xFFFFD1DC) else Color.White.copy(alpha = 0.85f))
                         .shadow(2.dp, CircleShape)
                         .testTag("storybook_voice_guide_button")
+                        .dpadFocusable(CircleShape)
                 ) {
                     Icon(
                         imageVector = if (isSpeaking) Icons.Default.VolumeUp else Icons.Default.VolumeOff,
@@ -254,6 +265,7 @@ fun StorybookIntroView(
                         .background(if (isFav) Color(0xFFFFE4E6) else Color.White.copy(alpha = 0.85f))
                         .shadow(2.dp, CircleShape)
                         .testTag("storybook_favorite_toggle_button")
+                        .dpadFocusable(CircleShape)
                 ) {
                     Icon(
                         imageVector = if (isFav) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
@@ -264,12 +276,13 @@ fun StorybookIntroView(
             }
         }
 
-        // Center Story Presentation Card
+        // Center Story Presentation Card (Adaptive Bounded & Scrollable)
         Card(
             modifier = Modifier
                 .align(Alignment.Center)
                 .fillMaxWidth()
-                .padding(top = 28.dp, bottom = 28.dp),
+                .widthIn(max = 640.dp)
+                .padding(top = 84.dp, bottom = 12.dp),
             shape = RoundedCornerShape(28.dp),
             colors = CardDefaults.cardColors(containerColor = Color.White.copy(alpha = 0.95f)),
             elevation = CardDefaults.cardElevation(6.dp),
@@ -278,13 +291,14 @@ fun StorybookIntroView(
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(24.dp),
+                    .verticalScroll(rememberScrollState())
+                    .padding(20.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 // Header Story Badge
                 Box(
                     modifier = Modifier
-                        .size(72.dp)
+                        .size(64.dp)
                         .clip(CircleShape)
                         .background(Color(0x19914D5D)),
                     contentAlignment = Alignment.Center
@@ -298,21 +312,21 @@ fun StorybookIntroView(
                         imageVector = icon,
                         contentDescription = "Lesson motif",
                         tint = Color(0xFF914D5D),
-                        modifier = Modifier.size(44.dp)
+                        modifier = Modifier.size(36.dp)
                     )
                 }
 
-                Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(12.dp))
 
                 Text(
                     text = lesson.storyTitle,
-                    fontSize = 22.sp,
+                    fontSize = 20.sp,
                     fontWeight = FontWeight.ExtraBold,
                     color = Color(0xFF1E293B),
                     textAlign = TextAlign.Center
                 )
 
-                Spacer(modifier = Modifier.height(8.dp))
+                Spacer(modifier = Modifier.height(4.dp))
 
                 val stageLabel = when (lesson.stage) {
                     "3-5" -> "Creative Storytelling • Ages 3-5"
@@ -326,18 +340,18 @@ fun StorybookIntroView(
                     fontWeight = FontWeight.Bold
                 )
 
-                Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(12.dp))
 
                 // Narrative text
                 Text(
                     text = lesson.storyContent,
-                    fontSize = 15.sp,
-                    lineHeight = 22.sp,
+                    fontSize = 14.sp,
+                    lineHeight = 20.sp,
                     textAlign = TextAlign.Center,
                     color = Color(0xFF334155)
                 )
 
-                Spacer(modifier = Modifier.height(24.dp))
+                Spacer(modifier = Modifier.height(16.dp))
 
                 // Instruction Cue Card
                 Card(
@@ -347,7 +361,7 @@ fun StorybookIntroView(
                     shape = RoundedCornerShape(16.dp)
                 ) {
                     Row(
-                        modifier = Modifier.padding(16.dp),
+                        modifier = Modifier.padding(14.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Icon(
@@ -361,12 +375,13 @@ fun StorybookIntroView(
                             text = lesson.actionGuide,
                             fontSize = 12.sp,
                             lineHeight = 18.sp,
-                            color = Color(0xFF1E293B)
+                            color = Color(0xFF1E293B),
+                            modifier = Modifier.weight(1f)
                         )
                     }
                 }
 
-                Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(14.dp))
 
                 // Daily Warm-Up Stretch UI Nudge
                 var showWarmUpDialog by remember { mutableStateOf(false) }
@@ -384,30 +399,39 @@ fun StorybookIntroView(
                     shape = RoundedCornerShape(16.dp)
                 ) {
                     Column(
-                        modifier = Modifier.padding(16.dp)
+                        modifier = Modifier.padding(14.dp)
                     ) {
                         Row(
                             verticalAlignment = Alignment.CenterVertically,
                             modifier = Modifier.fillMaxWidth(),
                             horizontalArrangement = Arrangement.SpaceBetween
                         ) {
-                            Row(verticalAlignment = Alignment.CenterVertically) {
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                                modifier = Modifier
+                                    .weight(1f)
+                                    .padding(end = 8.dp)
+                            ) {
                                 Text(
                                     text = if (warmUpCompleted) "✅" else "🦋",
-                                    fontSize = 24.sp
+                                    fontSize = 22.sp
                                 )
-                                Spacer(modifier = Modifier.width(12.dp))
+                                Spacer(modifier = Modifier.width(10.dp))
                                 Column {
                                     Text(
-                                        text = if (warmUpCompleted) "Stretch Warm-Up Done!" else "Stretch & Sparkle Warm-Up",
-                                        fontSize = 14.sp,
+                                        text = if (warmUpCompleted) "Warm-Up Done!" else "Stretch & Sparkle",
+                                        fontSize = 13.sp,
                                         fontWeight = FontWeight.Bold,
-                                        color = if (warmUpCompleted) Color(0xFF137333) else Color(0xFF914D5D)
+                                        color = if (warmUpCompleted) Color(0xFF137333) else Color(0xFF914D5D),
+                                        maxLines = 1,
+                                        overflow = TextOverflow.Ellipsis
                                     )
                                     Text(
-                                        text = if (warmUpCompleted) "Your muscles are beautifully ready! ✨" else "Perform a gentle 2-minute warm-up first!",
+                                        text = if (warmUpCompleted) "Muscles ready! ✨" else "Gentle 2-min warm-up",
                                         fontSize = 11.sp,
-                                        color = Color(0xFF475569)
+                                        color = Color(0xFF475569),
+                                        maxLines = 1,
+                                        overflow = TextOverflow.Ellipsis
                                     )
                                 }
                             }
@@ -417,9 +441,12 @@ fun StorybookIntroView(
                                     onClick = { showWarmUpDialog = true },
                                     colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFF5286)),
                                     shape = RoundedCornerShape(10.dp),
-                                    contentPadding = androidx.compose.foundation.layout.PaddingValues(horizontal = 12.dp, vertical = 6.dp)
+                                    contentPadding = androidx.compose.foundation.layout.PaddingValues(horizontal = 14.dp, vertical = 8.dp),
+                                    modifier = Modifier
+                                        .defaultMinSize(minWidth = 96.dp)
+                                        .dpadFocusable(RoundedCornerShape(10.dp))
                                 ) {
-                                    Text("Stretch 🦋", color = Color.White, fontSize = 11.sp, fontWeight = FontWeight.Bold)
+                                    Text("Stretch 🦋", color = Color.White, fontSize = 12.sp, fontWeight = FontWeight.Bold, maxLines = 1, softWrap = false)
                                 }
                             }
                         }
@@ -436,7 +463,7 @@ fun StorybookIntroView(
                     )
                 }
 
-                Spacer(modifier = Modifier.height(24.dp))
+                Spacer(modifier = Modifier.height(20.dp))
 
                 Button(
                     onClick = onStartPractice,
@@ -446,8 +473,9 @@ fun StorybookIntroView(
                         .fillMaxWidth()
                         .height(52.dp)
                         .testTag("start_practice_button")
+                        .dpadFocusable(RoundedCornerShape(16.dp))
                 ) {
-                    Text("Step into the Studio! 🩰", color = Color(0xFF914D5D), fontSize = 16.sp, fontWeight = FontWeight.Bold)
+                    Text("Step into the Studio! 🩰", color = Color(0xFF914D5D), fontSize = 15.sp, fontWeight = FontWeight.Bold)
                 }
             }
         }
@@ -1494,6 +1522,7 @@ fun WarmUpStretchingDialog(
             elevation = CardDefaults.cardElevation(12.dp),
             modifier = Modifier
                 .fillMaxWidth()
+                .widthIn(max = 480.dp)
                 .padding(16.dp)
                 .testTag("warmup_stretching_dialog"),
             border = BorderStrokeColors(2.dp, BalletPink)
@@ -1501,6 +1530,7 @@ fun WarmUpStretchingDialog(
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
+                    .verticalScroll(rememberScrollState())
                     .padding(24.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
@@ -1577,8 +1607,7 @@ fun WarmUpStretchingDialog(
                     fontSize = 13.sp,
                     lineHeight = 18.sp,
                     color = Color(0xFF334155),
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier.height(72.dp)
+                    textAlign = TextAlign.Center
                 )
 
                 Spacer(modifier = Modifier.height(20.dp))
@@ -1593,7 +1622,8 @@ fun WarmUpStretchingDialog(
                         colors = ButtonDefaults.buttonColors(
                             containerColor = if (isRunning) Color(0xFFFFF0F5) else Color(0xFFFFD1DC)
                         ),
-                        shape = RoundedCornerShape(12.dp)
+                        shape = RoundedCornerShape(12.dp),
+                        modifier = Modifier.dpadFocusable(RoundedCornerShape(12.dp))
                     ) {
                         Text(
                             text = if (isRunning) "Pause ⏸️" else "Start ▶️",
@@ -1608,7 +1638,8 @@ fun WarmUpStretchingDialog(
                             onComplete()
                         },
                         colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFF5286)),
-                        shape = RoundedCornerShape(12.dp)
+                        shape = RoundedCornerShape(12.dp),
+                        modifier = Modifier.dpadFocusable(RoundedCornerShape(12.dp))
                     ) {
                         Text(
                             text = if (timeLeft == 0) "All Done! 🎉" else "Done stretch 🩰",

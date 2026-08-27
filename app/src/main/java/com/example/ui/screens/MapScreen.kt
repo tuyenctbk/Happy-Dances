@@ -20,10 +20,12 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import com.example.ui.components.dpadFocusable
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material.icons.filled.AutoStories
@@ -143,14 +145,20 @@ fun MapScreen(
         label = "flame_pulse"
     )
 
-    Column(
+    Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFFFFF9FB)) // Ballet Canvas background
-            .verticalScroll(rememberScrollState())
-            .padding(24.dp)
-            .testTag("map_screen")
+            .background(Color(0xFFFFF9FB)), // Ballet Canvas background
+        contentAlignment = Alignment.TopCenter
     ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .widthIn(max = 840.dp)
+                .verticalScroll(rememberScrollState())
+                .padding(24.dp)
+                .testTag("map_screen")
+        ) {
         // Welcome Dancer Header
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -1041,6 +1049,7 @@ fun MapScreen(
         }
 
         Spacer(modifier = Modifier.height(48.dp))
+    }
     }
 }
 

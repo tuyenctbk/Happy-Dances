@@ -21,10 +21,12 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import com.example.ui.components.dpadFocusable
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material.icons.filled.Brush
@@ -76,15 +78,21 @@ fun AvatarScreen(viewModel: DanceViewModel) {
         label = "levitate"
     )
 
-    Column(
+    Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFFFFF9FB)) // Frosted Cream base
-            .verticalScroll(rememberScrollState())
-            .padding(24.dp)
-            .testTag("avatar_screen"),
-        horizontalAlignment = Alignment.CenterHorizontally
+            .background(Color(0xFFFFF9FB)), // Frosted Cream base
+        contentAlignment = Alignment.TopCenter
     ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .widthIn(max = 760.dp)
+                .verticalScroll(rememberScrollState())
+                .padding(24.dp)
+                .testTag("avatar_screen"),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
         Text(
             text = "Dancer Avatar Creator",
             fontSize = 28.sp,
@@ -323,6 +331,7 @@ fun AvatarScreen(viewModel: DanceViewModel) {
         }
 
         Spacer(modifier = Modifier.height(48.dp))
+    }
     }
 }
 

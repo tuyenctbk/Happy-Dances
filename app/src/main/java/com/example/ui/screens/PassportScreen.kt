@@ -15,11 +15,13 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import com.example.ui.components.dpadFocusable
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -132,14 +134,20 @@ fun PassportScreen(viewModel: DanceViewModel) {
     val earnedStickerIds = earnedStickers.map { it.stickerId }.toSet()
     val earnedBadgeIds = unlockedBadges.map { it.badgeId }.toSet()
 
-    Column(
+    Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFFFFF9FB)) // Frosted Cream base
-            .padding(top = 20.dp, start = 16.dp, end = 16.dp)
-            .testTag("passport_screen"),
-        horizontalAlignment = Alignment.CenterHorizontally
+            .background(Color(0xFFFFF9FB)), // Frosted Cream base
+        contentAlignment = Alignment.TopCenter
     ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .widthIn(max = 840.dp)
+                .padding(top = 20.dp, start = 16.dp, end = 16.dp)
+                .testTag("passport_screen"),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
         Text(
             text = "${profile.name}'s Passport & Stats",
             fontSize = 24.sp,
@@ -549,6 +557,7 @@ fun PassportScreen(viewModel: DanceViewModel) {
                 }
             }
         }
+    }
     }
 }
 

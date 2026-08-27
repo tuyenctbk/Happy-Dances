@@ -27,13 +27,16 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import com.example.ui.components.dpadFocusable
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.AutoAwesome
@@ -157,11 +160,16 @@ fun StoryAdventureSelectionView(
     onLaunchToddlerMode: () -> Unit = {},
     onBack: () -> Unit
 ) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp)
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.TopCenter
     ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .widthIn(max = 800.dp)
+                .padding(16.dp)
+        ) {
         // Header Bar
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -370,6 +378,7 @@ fun StoryAdventureSelectionView(
             }
         }
     }
+    }
 }
 
 @Composable
@@ -398,11 +407,16 @@ fun ActiveStoryChapterView(
         label = "char_bounce"
     )
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp)
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.TopCenter
     ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .widthIn(max = 800.dp)
+                .padding(16.dp)
+        ) {
         // Top Navigation Bar
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -480,7 +494,7 @@ fun ActiveStoryChapterView(
                         .size(72.dp)
                         .clip(CircleShape)
                         .background(Color(0x26FFD1DC))
-                        .padding(top = characterBounce.coerceIn(-4f, 4f).dp),
+                        .offset(y = characterBounce.coerceIn(-4f, 4f).dp),
                     contentAlignment = Alignment.Center
                 ) {
                     Text(chapter.characterEmoji, fontSize = 40.sp)
@@ -609,5 +623,6 @@ fun ActiveStoryChapterView(
                 }
             )
         }
+    }
     }
 }

@@ -22,6 +22,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -405,7 +406,7 @@ fun ToddlerStoryDanceScreen(
                                         .clip(CircleShape)
                                         .background(Color.White)
                                         .shadow(3.dp, CircleShape)
-                                        .padding(top = characterBounce.dp),
+                                        .offset(y = characterBounce.dp),
                                     contentAlignment = Alignment.Center
                                 ) {
                                     Text(step.storyCharacter, fontSize = 36.sp)

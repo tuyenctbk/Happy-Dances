@@ -24,10 +24,12 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import com.example.ui.components.dpadFocusable
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material.icons.filled.AutoStories
@@ -175,11 +177,13 @@ fun IntroLevelSelectionScreen(
                     )
                 )
             )
-            .testTag("intro_level_selection_screen")
+            .testTag("intro_level_selection_screen"),
+        contentAlignment = Alignment.TopCenter
     ) {
         Column(
             modifier = Modifier
-                .fillMaxSize()
+                .fillMaxWidth()
+                .widthIn(max = 680.dp)
                 .verticalScroll(rememberScrollState())
                 .padding(horizontal = 20.dp, vertical = 24.dp),
             horizontalAlignment = Alignment.CenterHorizontally
@@ -256,7 +260,8 @@ fun IntroLevelSelectionScreen(
                             ),
                             shape = RoundedCornerShape(24.dp)
                         )
-                        .testTag("level_card_${level.levelKey}"),
+                        .testTag("level_card_${level.levelKey}")
+                        .dpadFocusable(RoundedCornerShape(24.dp)),
                     shape = RoundedCornerShape(24.dp),
                     colors = CardDefaults.cardColors(
                         containerColor = if (isSelected) Color.White else Color.White.copy(alpha = 0.75f)
@@ -371,7 +376,8 @@ fun IntroLevelSelectionScreen(
                     .fillMaxWidth()
                     .height(54.dp)
                     .clip(RoundedCornerShape(18.dp))
-                    .testTag("btn_confirm_level_selection"),
+                    .testTag("btn_confirm_level_selection")
+                    .dpadFocusable(RoundedCornerShape(18.dp)),
                 colors = ButtonDefaults.buttonColors(
                     containerColor = when (selectedLevel) {
                         "3-5" -> BalletPink
