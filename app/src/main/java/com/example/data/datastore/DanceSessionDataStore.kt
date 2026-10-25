@@ -36,27 +36,84 @@ class DanceSessionDataStore(private val context: Context) {
         private val KEY_MUSIC_ENABLED = booleanPreferencesKey("music_enabled")
         private val KEY_VOICE_GUIDE_ENABLED = booleanPreferencesKey("voice_guide_enabled")
         private val KEY_NIGHT_MODE_ENABLED = booleanPreferencesKey("night_mode_enabled")
-        private val KEY_HAS_SUGGESTED_RATE = booleanPreferencesKey("has_suggested_rate")
-        private val KEY_HAS_SUGGESTED_SHARE = booleanPreferencesKey("has_suggested_share")
+        
+        // Smart Rating prompt tracking
+        private val KEY_HAS_RATED_APP = booleanPreferencesKey("has_rated_app")
+        private val KEY_LAST_RATE_PROMPT_TIME = longPreferencesKey("last_rate_prompt_time")
+        private val KEY_RATE_PROMPT_DISMISS_COUNT = intPreferencesKey("rate_prompt_dismiss_count")
+
+        // Smart Sharing prompt tracking
+        private val KEY_HAS_SHARED_APP = booleanPreferencesKey("has_shared_app")
+        private val KEY_LAST_SHARE_PROMPT_TIME = longPreferencesKey("last_share_prompt_time")
+        private val KEY_SHARE_PROMPT_DISMISS_COUNT = intPreferencesKey("share_prompt_dismiss_count")
+
+        // Smart Update prompt tracking
+        private val KEY_IGNORED_UPDATE_VERSION = intPreferencesKey("ignored_update_version")
+        private val KEY_LAST_UPDATE_PROMPT_TIME = longPreferencesKey("last_update_prompt_time")
     }
 
-    val isRateSuggested: Flow<Boolean> = context.sessionDataStore.data.map { prefs ->
-        prefs[KEY_HAS_SUGGESTED_RATE] ?: false
+    val hasRatedApp: Flow<Boolean> = context.sessionDataStore.data.map { prefs ->
+        prefs[KEY_HAS_RATED_APP] ?: false
     }
 
-    val isShareSuggested: Flow<Boolean> = context.sessionDataStore.data.map { prefs ->
-        prefs[KEY_HAS_SUGGESTED_SHARE] ?: false
+    val lastRatePromptTime: Flow<Long> = context.sessionDataStore.data.map { prefs ->
+        prefs[KEY_LAST_RATE_PROMPT_TIME] ?: 0L
     }
 
-    suspend fun setRateSuggested(suggested: Boolean) {
+    val ratePromptDismissCount: Flow<Int> = context.sessionDataStore.data.map { prefs ->
+        prefs[KEY_RATE_PROMPT_DISMISS_COUNT] ?: 0
+    }
+
+    val hasSharedApp: Flow<Boolean> = context.sessionDataStore.data.map { prefs ->
+        prefs[KEY_HAS_SHARED_APP] ?: false
+    }
+
+    val lastSharePromptTime: Flow<Long> = context.sessionDataStore.data.map { prefs ->
+        prefs[KEY_LAST_SHARE_PROMPT_TIME] ?: 0L
+    }
+
+    val sharePromptDismissCount: Flow<Int> = context.sessionDataStore.data.map { prefs ->
+        prefs[KEY_SHARE_PROMPT_DISMISS_COUNT] ?: 0
+    }
+
+    val ignoredUpdateVersion: Flow<Int> = context.sessionDataStore.data.map { prefs ->
+        prefs[KEY_IGNORED_UPDATE_VERSION] ?: 0
+    }
+
+    val lastUpdatePromptTime: Flow<Long> = context.sessionDataStore.data.map { prefs ->
+        prefs[KEY_LAST_UPDATE_PROMPT_TIME] ?: 0L
+    }
+
+    suspend fun recordRateAction(rated: Boolean) {
         context.sessionDataStore.edit { prefs ->
-            prefs[KEY_HAS_SUGGESTED_RATE] = suggested
+            if (rated) {
+                prefs[KEY_HAS_RATED_APP] = true
+            } else {
+                val count = prefs[KEY_RATE_PROMPT_DISMISS_COUNT] ?: 0
+                prefs[KEY_RATE_PROMPT_DISMISS_COUNT] = count + 1
+                prefs[KEY_LAST_RATE_PROMPT_TIME] = System.currentTimeMillis()
+            }
         }
     }
 
-    suspend fun setShareSuggested(suggested: Boolean) {
+    suspend fun recordShareAction(shared: Boolean) {
         context.sessionDataStore.edit { prefs ->
-            prefs[KEY_HAS_SUGGESTED_SHARE] = suggested
+            if (shared) {
+                prefs[KEY_HAS_SHARED_APP] = true
+            } else {
+                val count = prefs[KEY_SHARE_PROMPT_DISMISS_COUNT] ?: 0
+                prefs[KEY_SHARE_PROMPT_DISMISS_COUNT] = count + 1
+                prefs[KEY_LAST_SHARE_PROMPT_TIME] = System.currentTimeMillis()
+            }
+        }
+    }
+
+    suspend fun recordUpdateAction(later: Boolean, skipVersionCode: Int = 0) {
+        context.sessionDataStore.edit { prefs ->
+            prefs[KEY_LAST_UPDATE_PROMPT_TIME] = System.currentTimeMillis()
+            if (skipVersionCode > 0) {
+                prefs[KEY_IGNORED_UPDATE_VERSION] = skipVersionCode
+            }
         }
     }
 
@@ -71,7 +128,6 @@ class DanceSessionDataStore(private val context: Context) {
     val isNightModeEnabled: Flow<Boolean> = context.sessionDataStore.data.map { prefs ->
         prefs[KEY_NIGHT_MODE_ENABLED] ?: false
     }
-
 
     val lastPlayedSession: Flow<LastPlayedSession> = context.sessionDataStore.data.map { prefs ->
         LastPlayedSession(
@@ -101,7 +157,6 @@ class DanceSessionDataStore(private val context: Context) {
             prefs[KEY_NIGHT_MODE_ENABLED] = enabled
         }
     }
-
 
     suspend fun saveLastSession(
         lessonId: String,

@@ -69,18 +69,60 @@ class DanceViewModel(application: Application) : AndroidViewModel(application) {
             initialValue = false
         )
 
-    val isRateSuggested: StateFlow<Boolean> = sessionDataStore.isRateSuggested
+    val hasRatedApp: StateFlow<Boolean> = sessionDataStore.hasRatedApp
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5000),
             initialValue = false
         )
 
-    val isShareSuggested: StateFlow<Boolean> = sessionDataStore.isShareSuggested
+    val lastRatePromptTime: StateFlow<Long> = sessionDataStore.lastRatePromptTime
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = 0L
+        )
+
+    val ratePromptDismissCount: StateFlow<Int> = sessionDataStore.ratePromptDismissCount
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = 0
+        )
+
+    val hasSharedApp: StateFlow<Boolean> = sessionDataStore.hasSharedApp
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5000),
             initialValue = false
+        )
+
+    val lastSharePromptTime: StateFlow<Long> = sessionDataStore.lastSharePromptTime
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = 0L
+        )
+
+    val sharePromptDismissCount: StateFlow<Int> = sessionDataStore.sharePromptDismissCount
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = 0
+        )
+
+    val ignoredUpdateVersion: StateFlow<Int> = sessionDataStore.ignoredUpdateVersion
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = 0
+        )
+
+    val lastUpdatePromptTime: StateFlow<Long> = sessionDataStore.lastUpdatePromptTime
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = 0L
         )
 
     val recentlyViewedLessons: StateFlow<List<RecentlyViewedLesson>> = repository.recentlyViewedLessonsFlow
@@ -93,18 +135,6 @@ class DanceViewModel(application: Application) : AndroidViewModel(application) {
     fun setNightModeEnabled(enabled: Boolean) {
         viewModelScope.launch {
             sessionDataStore.setNightModeEnabled(enabled)
-        }
-    }
-
-    fun setRateSuggested(suggested: Boolean) {
-        viewModelScope.launch {
-            sessionDataStore.setRateSuggested(suggested)
-        }
-    }
-
-    fun setShareSuggested(suggested: Boolean) {
-        viewModelScope.launch {
-            sessionDataStore.setShareSuggested(suggested)
         }
     }
 
@@ -227,12 +257,42 @@ class DanceViewModel(application: Application) : AndroidViewModel(application) {
     private val _showShareAppDialog = MutableStateFlow(false)
     val showShareAppDialog: StateFlow<Boolean> = _showShareAppDialog.asStateFlow()
 
-    fun dismissRateAppDialog() {
+    private val _showUpdateAppDialog = MutableStateFlow(false)
+    val showUpdateAppDialog: StateFlow<Boolean> = _showUpdateAppDialog.asStateFlow()
+
+    fun dismissRateAppDialog(userRated: Boolean = false) {
         _showRateAppDialog.value = false
+        viewModelScope.launch {
+            sessionDataStore.recordRateAction(rated = userRated)
+        }
     }
 
-    fun dismissShareAppDialog() {
+    fun dismissShareAppDialog(userShared: Boolean = false) {
         _showShareAppDialog.value = false
+        viewModelScope.launch {
+            sessionDataStore.recordShareAction(shared = userShared)
+        }
+    }
+
+    fun dismissUpdateAppDialog(later: Boolean = true, skipVersionCode: Int = 0) {
+        _showUpdateAppDialog.value = false
+        viewModelScope.launch {
+            sessionDataStore.recordUpdateAction(later = later, skipVersionCode = skipVersionCode)
+        }
+    }
+
+    fun checkAndTriggerUpdatePromptOnAppOpen() {
+        val currentVer = 3 // Current versionCode in build.gradle.kts
+        val latestAvailableVer = 4 // Latest available release
+        val now = System.currentTimeMillis()
+        val minIntervalMillis = 3 * 24 * 3600 * 1000L // 3 days cooldown between update prompts
+
+        if (latestAvailableVer > currentVer &&
+            ignoredUpdateVersion.value < latestAvailableVer &&
+            (now - lastUpdatePromptTime.value) >= minIntervalMillis
+        ) {
+            _showUpdateAppDialog.value = true
+        }
     }
 
     private val _selectedCertificateMilestone = MutableStateFlow<String>("Grand Ballet Star Award 🌸")
@@ -628,14 +688,25 @@ class DanceViewModel(application: Application) : AndroidViewModel(application) {
         val lastEvent = _celebrationEvent.value
         _celebrationEvent.value = null
 
-        // Calculate if we should display Rating or Sharing Suggestion based on UX metrics
+        val now = System.currentTimeMillis()
         val completedCount = completedLessons.value.size
-        if (completedCount >= 2 && !isRateSuggested.value) {
+        val fourDaysMillis = 4 * 24 * 3600 * 1000L
+        val fiveDaysMillis = 5 * 24 * 3600 * 1000L
+
+        val canShowRate = !hasRatedApp.value &&
+                ratePromptDismissCount.value < 3 &&
+                completedCount >= 3 &&
+                (now - lastRatePromptTime.value) >= fourDaysMillis
+
+        val canShowShare = !hasSharedApp.value &&
+                sharePromptDismissCount.value < 3 &&
+                completedCount >= 2 &&
+                (now - lastSharePromptTime.value) >= fiveDaysMillis
+
+        if (canShowRate) {
             _showRateAppDialog.value = true
-            setRateSuggested(true)
-        } else if (completedCount >= 3 && !isShareSuggested.value) {
+        } else if (canShowShare) {
             _showShareAppDialog.value = true
-            setShareSuggested(true)
         }
 
         if (_activeStory.value != null) {

@@ -88,4 +88,11 @@
     <string name="share_app_action_later">Más tarde</string>
     <string name="share_app_chooser_title">Compartir Happy Dances</string>
     <string name="share_app_message_body">¡Hola! Echa un vistazo a Happy Dances, un maravilloso estudio de ballet y danza para niños pequeños. Descárgalo aquí: https://play.google.com/store/apps/details?id=%1$s</string>
+
+    <!-- Update App Dialog Prompts -->
+    <string name="update_app_dialog_title">¡Nueva versión disponible! 🚀</string>
+    <string name="update_app_dialog_message">¡Una nueva actualización de Happy Dances está lista con clases de baile, música y rendimiento mejorados! Actualiza ahora para disfrutar las últimas novedades.</string>
+    <string name="update_app_action_update">Actualizar ahora 🚀</string>
+    <string name="update_app_action_later">Recordarme más tarde</string>
+    <string name="update_app_action_skip">Omitir esta versión</string>
 </resources>

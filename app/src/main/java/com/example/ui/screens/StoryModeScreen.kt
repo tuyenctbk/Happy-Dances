@@ -184,6 +184,7 @@ fun StoryAdventureSelectionView(
                         .background(Color.White)
                         .shadow(2.dp, CircleShape)
                         .testTag("story_mode_back_button")
+                        .dpadFocusable(CircleShape)
                 ) {
                     Icon(
                         imageVector = Icons.Default.ArrowBack,
@@ -223,7 +224,8 @@ fun StoryAdventureSelectionView(
                         .fillMaxWidth()
                         .clip(RoundedCornerShape(24.dp))
                         .clickable { onLaunchToddlerMode() }
-                        .testTag("btn_launch_toddler_story_studio"),
+                        .testTag("btn_launch_toddler_story_studio")
+                        .dpadFocusable(RoundedCornerShape(24.dp)),
                     shape = RoundedCornerShape(24.dp),
                     colors = CardDefaults.cardColors(containerColor = Color.White),
                     elevation = CardDefaults.cardElevation(5.dp),
@@ -285,7 +287,8 @@ fun StoryAdventureSelectionView(
                     modifier = Modifier
                         .fillMaxWidth()
                         .clickable { onSelectAdventure(adventure) }
-                        .testTag("story_adventure_card_${adventure.id}"),
+                        .testTag("story_adventure_card_${adventure.id}")
+                        .dpadFocusable(RoundedCornerShape(24.dp)),
                     shape = RoundedCornerShape(24.dp),
                     colors = CardDefaults.cardColors(containerColor = Color.White.copy(alpha = 0.95f)),
                     elevation = CardDefaults.cardElevation(4.dp),
@@ -430,6 +433,7 @@ fun ActiveStoryChapterView(
                     .background(Color.White.copy(alpha = 0.9f))
                     .shadow(2.dp, CircleShape)
                     .testTag("exit_story_button")
+                    .dpadFocusable(CircleShape)
             ) {
                 Icon(imageVector = Icons.Default.Close, contentDescription = "Exit", tint = Color(0xFF914D5D))
             }
@@ -581,6 +585,7 @@ fun ActiveStoryChapterView(
                             .weight(1f)
                             .height(52.dp)
                             .testTag("practice_dance_repetition_button")
+                            .dpadFocusable(RoundedCornerShape(16.dp))
                     ) {
                         Text(
                             text = if (userDanceCount == 0) "Try Step ✨" else "Rep: $userDanceCount 🌟",
@@ -601,6 +606,7 @@ fun ActiveStoryChapterView(
                             .weight(1.3f)
                             .height(52.dp)
                             .testTag("complete_chapter_button")
+                            .dpadFocusable(RoundedCornerShape(16.dp))
                     ) {
                         Text(
                             text = if (currentChapterIndex + 1 == totalChapters) "Finish Story Tale! 🏆" else "Complete Step ➡️",

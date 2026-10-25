@@ -188,6 +188,7 @@ fun AvatarScreen(viewModel: DanceViewModel) {
                             )
                         }
                         .testTag("outfit_$key")
+                        .dpadFocusable(CircleShape)
                 ) {
                     Box(
                         modifier = Modifier
@@ -240,6 +241,7 @@ fun AvatarScreen(viewModel: DanceViewModel) {
                             )
                         }
                         .testTag("hair_$key")
+                        .dpadFocusable(CircleShape)
                 ) {
                     Box(
                         modifier = Modifier
@@ -292,6 +294,7 @@ fun AvatarScreen(viewModel: DanceViewModel) {
                             )
                         }
                         .testTag("background_$key")
+                        .dpadFocusable(RoundedCornerShape(12.dp))
                 ) {
                     Box(
                         modifier = Modifier
@@ -326,6 +329,7 @@ fun AvatarScreen(viewModel: DanceViewModel) {
                 .fillMaxWidth(0.8f)
                 .height(52.dp)
                 .testTag("avatar_back_button")
+                .dpadFocusable(RoundedCornerShape(16.dp))
         ) {
             Text("Looks Perfect!", color = Color(0xFF914D5D), fontSize = 16.sp, fontWeight = FontWeight.Bold)
         }

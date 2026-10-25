@@ -284,7 +284,9 @@ fun MapScreen(
                         onClick = { viewModel.resumeSavedSession() },
                         colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF2563EB)),
                         shape = RoundedCornerShape(14.dp),
-                        modifier = Modifier.testTag("resume_session_button")
+                        modifier = Modifier
+                            .testTag("resume_session_button")
+                            .dpadFocusable(RoundedCornerShape(14.dp))
                     ) {
                         Text("Resume ➔", fontSize = 12.sp, fontWeight = FontWeight.ExtraBold, color = Color.White)
                     }
@@ -464,8 +466,9 @@ fun MapScreen(
                                 viewModel.setMode(nextMode)
                                 viewModel.synthesizer.playSparkleChime()
                             }
-                            .padding(horizontal = 8.dp, vertical = 6.dp)
                             .testTag("btn_toggle_mode")
+                            .dpadFocusable(RoundedCornerShape(12.dp))
+                            .padding(horizontal = 8.dp, vertical = 6.dp)
                     ) {
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             Icon(
@@ -492,8 +495,9 @@ fun MapScreen(
                             .clickable {
                                 onNavigateToIntroLevel?.invoke() ?: viewModel.navigateTo("intro_level")
                             }
-                            .padding(horizontal = 8.dp, vertical = 6.dp)
                             .testTag("btn_open_level_picker")
+                            .dpadFocusable(RoundedCornerShape(12.dp))
+                            .padding(horizontal = 8.dp, vertical = 6.dp)
                     ) {
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             Icon(
@@ -639,6 +643,7 @@ fun MapScreen(
                                     .fillMaxWidth()
                                     .height(48.dp)
                                     .testTag("start_dancing_hero_button")
+                                    .dpadFocusable(RoundedCornerShape(16.dp))
                             ) {
                                 Text(
                                     text = "▶ Start Dancing",
@@ -667,7 +672,8 @@ fun MapScreen(
                     .clickable {
                         onNavigateToLibrary?.invoke() ?: viewModel.navigateTo("library")
                     }
-                    .testTag("quick_action_library"),
+                    .testTag("quick_action_library")
+                    .dpadFocusable(RoundedCornerShape(22.dp)),
                 shape = RoundedCornerShape(22.dp),
                 colors = CardDefaults.cardColors(containerColor = Color.White.copy(alpha = 0.9f)),
                 border = BorderStrokeColors(1.dp, Color(0xFFFFD1DC)),
@@ -701,7 +707,8 @@ fun MapScreen(
                 modifier = Modifier
                     .weight(1f)
                     .clickable { viewModel.navigateTo("story_mode_entry") }
-                    .testTag("quick_action_story_mode"),
+                    .testTag("quick_action_story_mode")
+                    .dpadFocusable(RoundedCornerShape(22.dp)),
                 shape = RoundedCornerShape(22.dp),
                 colors = CardDefaults.cardColors(containerColor = Color.White.copy(alpha = 0.85f)),
                 border = BorderStrokeColors(1.dp, Color(0x4DFFD1DC)),
@@ -735,7 +742,8 @@ fun MapScreen(
                 modifier = Modifier
                     .weight(1f)
                     .clickable { viewModel.navigateTo("avatar") }
-                    .testTag("quick_action_avatar"),
+                    .testTag("quick_action_avatar")
+                    .dpadFocusable(RoundedCornerShape(22.dp)),
                 shape = RoundedCornerShape(22.dp),
                 colors = CardDefaults.cardColors(containerColor = Color.White.copy(alpha = 0.85f)),
                 border = BorderStrokeColors(1.dp, Color(0x33AEC6CF)),
@@ -768,7 +776,8 @@ fun MapScreen(
                 modifier = Modifier
                     .weight(1f)
                     .clickable { viewModel.navigateTo("passport") }
-                    .testTag("quick_action_passport"),
+                    .testTag("quick_action_passport")
+                    .dpadFocusable(RoundedCornerShape(22.dp)),
                 shape = RoundedCornerShape(22.dp),
                 colors = CardDefaults.cardColors(containerColor = Color.White.copy(alpha = 0.85f)),
                 border = BorderStrokeColors(1.dp, Color(0x3387CEEB)),
@@ -825,7 +834,8 @@ fun MapScreen(
                     modifier = Modifier
                         .weight(1f)
                         .clickable { viewModel.changeAgeGroup(age) }
-                        .testTag("world_region_$age"),
+                        .testTag("world_region_$age")
+                        .dpadFocusable(RoundedCornerShape(20.dp)),
                     shape = RoundedCornerShape(20.dp),
                     colors = CardDefaults.cardColors(
                         containerColor = if (isActive) bg else bg.copy(alpha = 0.5f)
@@ -951,8 +961,9 @@ fun MapScreen(
                             shape = RoundedCornerShape(24.dp)
                         )
                         .clickable { viewModel.selectLesson(lesson) }
-                        .padding(16.dp)
-                        .testTag("lesson_node_${lesson.id}"),
+                        .testTag("lesson_node_${lesson.id}")
+                        .dpadFocusable(RoundedCornerShape(24.dp))
+                        .padding(16.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Box(

@@ -117,6 +117,7 @@ class MainActivity : ComponentActivity() {
                 LaunchedEffect(Unit) {
                     delay(2200) // Show beautiful splash for 2.2 seconds
                     showSplash = false
+                    viewModel.checkAndTriggerUpdatePromptOnAppOpen()
                 }
 
                 Crossfade(
@@ -245,6 +246,7 @@ class MainActivity : ComponentActivity() {
 
         val showRateAppDialog by viewModel.showRateAppDialog.collectAsState()
         val showShareAppDialog by viewModel.showShareAppDialog.collectAsState()
+        val showUpdateAppDialog by viewModel.showUpdateAppDialog.collectAsState()
         val context = LocalContext.current
 
         val configuration = LocalConfiguration.current
@@ -553,9 +555,75 @@ class MainActivity : ComponentActivity() {
                     )
                 }
 
+                if (showUpdateAppDialog) {
+                    AlertDialog(
+                        onDismissRequest = { viewModel.dismissUpdateAppDialog(later = true) },
+                        title = {
+                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                Text("🚀 ", fontSize = 24.sp)
+                                Text(
+                                    text = stringResource(R.string.update_app_dialog_title),
+                                    fontWeight = FontWeight.Bold,
+                                    fontSize = 18.sp,
+                                    color = Color(0xFF1E293B)
+                                )
+                            }
+                        },
+                        text = {
+                            Text(
+                                text = stringResource(R.string.update_app_dialog_message),
+                                fontSize = 14.sp,
+                                color = Color(0xFF475569)
+                            )
+                        },
+                        confirmButton = {
+                            Button(
+                                onClick = {
+                                    viewModel.dismissUpdateAppDialog(later = false)
+                                    try {
+                                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=${context.packageName}")).apply {
+                                            addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY or Intent.FLAG_ACTIVITY_NEW_DOCUMENT or Intent.FLAG_ACTIVITY_MULTIPLE_TASK)
+                                        }
+                                        context.startActivity(intent)
+                                    } catch (e: Exception) {
+                                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=${context.packageName}"))
+                                        context.startActivity(intent)
+                                    }
+                                },
+                                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF10B981)),
+                                shape = RoundedCornerShape(12.dp),
+                                modifier = Modifier.dpadFocusable(RoundedCornerShape(12.dp))
+                            ) {
+                                Text(stringResource(R.string.update_app_action_update), fontWeight = FontWeight.Bold, color = Color.White)
+                            }
+                        },
+                        dismissButton = {
+                            Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+                                TextButton(
+                                    onClick = { viewModel.dismissUpdateAppDialog(later = false, skipVersionCode = 4) },
+                                    shape = RoundedCornerShape(12.dp),
+                                    modifier = Modifier.dpadFocusable(RoundedCornerShape(12.dp))
+                                ) {
+                                    Text(stringResource(R.string.update_app_action_skip), color = Color(0xFF94A3B8), fontSize = 12.sp)
+                                }
+                                TextButton(
+                                    onClick = { viewModel.dismissUpdateAppDialog(later = true) },
+                                    shape = RoundedCornerShape(12.dp),
+                                    modifier = Modifier.dpadFocusable(RoundedCornerShape(12.dp))
+                                ) {
+                                    Text(stringResource(R.string.update_app_action_later), color = Color(0xFF64748B))
+                                }
+                            }
+                        },
+                        shape = RoundedCornerShape(20.dp),
+                        containerColor = Color.White,
+                        modifier = Modifier.testTag("update_app_suggestion_dialog")
+                    )
+                }
+
                 if (showRateAppDialog) {
                     AlertDialog(
-                        onDismissRequest = { viewModel.dismissRateAppDialog() },
+                        onDismissRequest = { viewModel.dismissRateAppDialog(userRated = false) },
                         title = {
                             Row(verticalAlignment = Alignment.CenterVertically) {
                                 Text("⭐ ", fontSize = 24.sp)
@@ -577,7 +645,7 @@ class MainActivity : ComponentActivity() {
                         confirmButton = {
                             Button(
                                 onClick = {
-                                    viewModel.dismissRateAppDialog()
+                                    viewModel.dismissRateAppDialog(userRated = true)
                                     try {
                                         val intent = Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=${context.packageName}")).apply {
                                             addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY or Intent.FLAG_ACTIVITY_NEW_DOCUMENT or Intent.FLAG_ACTIVITY_MULTIPLE_TASK)
@@ -597,7 +665,7 @@ class MainActivity : ComponentActivity() {
                         },
                         dismissButton = {
                             TextButton(
-                                onClick = { viewModel.dismissRateAppDialog() },
+                                onClick = { viewModel.dismissRateAppDialog(userRated = false) },
                                 shape = RoundedCornerShape(12.dp),
                                 modifier = Modifier.dpadFocusable(RoundedCornerShape(12.dp))
                             ) {
@@ -612,7 +680,7 @@ class MainActivity : ComponentActivity() {
 
                 if (showShareAppDialog) {
                     AlertDialog(
-                        onDismissRequest = { viewModel.dismissShareAppDialog() },
+                        onDismissRequest = { viewModel.dismissShareAppDialog(userShared = false) },
                         title = {
                             Row(verticalAlignment = Alignment.CenterVertically) {
                                 Text("🚀 ", fontSize = 24.sp)
@@ -634,7 +702,7 @@ class MainActivity : ComponentActivity() {
                         confirmButton = {
                             Button(
                                 onClick = {
-                                    viewModel.dismissShareAppDialog()
+                                    viewModel.dismissShareAppDialog(userShared = true)
                                     val shareBody = context.getString(R.string.share_app_message_body, context.packageName)
                                     val chooserTitle = context.getString(R.string.share_app_chooser_title)
                                     val sendIntent = Intent().apply {
@@ -654,7 +722,7 @@ class MainActivity : ComponentActivity() {
                         },
                         dismissButton = {
                             TextButton(
-                                onClick = { viewModel.dismissShareAppDialog() },
+                                onClick = { viewModel.dismissShareAppDialog(userShared = false) },
                                 shape = RoundedCornerShape(12.dp),
                                 modifier = Modifier.dpadFocusable(RoundedCornerShape(12.dp))
                             ) {

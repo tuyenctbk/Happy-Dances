@@ -88,4 +88,11 @@
     <string name="share_app_action_later">Maybe Later</string>
     <string name="share_app_chooser_title">Share Happy Dances</string>
     <string name="share_app_message_body">Hey! Check out Happy Dances, a wonderful ballet and creative dance movement learning studio for toddlers and kids. Download here: https://play.google.com/store/apps/details?id=%1$s</string>
+
+    <!-- Update App Dialog Prompts -->
+    <string name="update_app_dialog_title">New Version Available! 🚀</string>
+    <string name="update_app_dialog_message">A new update for Happy Dances is ready with improved dance lessons, music, and performance! Update now to enjoy the latest features.</string>
+    <string name="update_app_action_update">Update Now 🚀</string>
+    <string name="update_app_action_later">Remind Me Later</string>
+    <string name="update_app_action_skip">Skip This Version</string>
 </resources>

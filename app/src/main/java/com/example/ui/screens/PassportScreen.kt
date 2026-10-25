@@ -217,7 +217,9 @@ fun PassportScreen(viewModel: DanceViewModel) {
                     colors = ButtonDefaults.buttonColors(containerColor = BalletPink),
                     shape = RoundedCornerShape(12.dp),
                     contentPadding = PaddingValues(horizontal = 10.dp, vertical = 4.dp),
-                    modifier = Modifier.testTag("share_passport_button")
+                    modifier = Modifier
+                        .testTag("share_passport_button")
+                        .dpadFocusable(RoundedCornerShape(12.dp))
                 ) {
                     Icon(imageVector = Icons.Default.Share, contentDescription = "Share", tint = Color(0xFF914D5D), modifier = Modifier.size(13.dp))
                     Spacer(modifier = Modifier.width(4.dp))
@@ -406,7 +408,9 @@ fun PassportScreen(viewModel: DanceViewModel) {
                                                 colors = ButtonDefaults.buttonColors(containerColor = BalletPink),
                                                 shape = RoundedCornerShape(12.dp),
                                                 contentPadding = PaddingValues(horizontal = 12.dp, vertical = 6.dp),
-                                                modifier = Modifier.testTag("open_certificate_${title.take(10)}")
+                                                modifier = Modifier
+                                                    .testTag("open_certificate_${title.take(10)}")
+                                                    .dpadFocusable(RoundedCornerShape(12.dp))
                                             ) {
                                                 Text(
                                                     text = "View & Print 📜",
@@ -582,7 +586,8 @@ fun StickerCard(sticker: StickerDef, isEarned: Boolean) {
         modifier = Modifier
             .fillMaxWidth()
             .alpha(if (isEarned) 1f else 0.65f)
-            .testTag("sticker_card_${sticker.id}"),
+            .testTag("sticker_card_${sticker.id}")
+            .dpadFocusable(RoundedCornerShape(22.dp)),
         shape = RoundedCornerShape(22.dp),
         colors = CardDefaults.cardColors(
             containerColor = if (isEarned) Color.White.copy(alpha = 0.9f) else Color.White.copy(alpha = 0.45f)
@@ -668,7 +673,8 @@ fun BadgeCard(badge: BadgeDef, isEarned: Boolean) {
         modifier = Modifier
             .fillMaxWidth()
             .alpha(if (isEarned) 1f else 0.65f)
-            .testTag("badge_card_${badge.id}"),
+            .testTag("badge_card_${badge.id}")
+            .dpadFocusable(RoundedCornerShape(22.dp)),
         shape = RoundedCornerShape(22.dp),
         colors = CardDefaults.cardColors(
             containerColor = if (isEarned) Color.White.copy(alpha = 0.9f) else Color.White.copy(alpha = 0.45f)

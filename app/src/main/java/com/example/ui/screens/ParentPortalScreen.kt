@@ -192,7 +192,9 @@ fun ParentPortalScreen(viewModel: DanceViewModel) {
                     ) {
                         TextButton(
                             onClick = { viewModel.navigateTo("map") },
-                            modifier = Modifier.testTag("gate_cancel_button")
+                            modifier = Modifier
+                                .testTag("gate_cancel_button")
+                                .dpadFocusable(RoundedCornerShape(12.dp))
                         ) {
                             Text("Go Back", color = Color(0xFF64748B))
                         }
@@ -211,7 +213,9 @@ fun ParentPortalScreen(viewModel: DanceViewModel) {
                             },
                             colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFFD1DC)),
                             shape = RoundedCornerShape(12.dp),
-                            modifier = Modifier.testTag("gate_submit_button")
+                            modifier = Modifier
+                                .testTag("gate_submit_button")
+                                .dpadFocusable(RoundedCornerShape(12.dp))
                         ) {
                             Text("Verify", color = Color(0xFF914D5D), fontWeight = FontWeight.Bold)
                         }
@@ -324,7 +328,9 @@ fun ParentPortalScreen(viewModel: DanceViewModel) {
                                 checkedThumbColor = Color.White,
                                 checkedTrackColor = Color(0xFF914D5D)
                             ),
-                            modifier = Modifier.testTag("toggle_background_music_switch")
+                            modifier = Modifier
+                                .testTag("toggle_background_music_switch")
+                                .dpadFocusable(RoundedCornerShape(16.dp))
                         )
                     }
 
@@ -366,7 +372,9 @@ fun ParentPortalScreen(viewModel: DanceViewModel) {
                                 checkedThumbColor = Color.White,
                                 checkedTrackColor = Color(0xFF914D5D)
                             ),
-                            modifier = Modifier.testTag("toggle_voice_guide_switch")
+                            modifier = Modifier
+                                .testTag("toggle_voice_guide_switch")
+                                .dpadFocusable(RoundedCornerShape(16.dp))
                         )
                     }
 
@@ -407,7 +415,9 @@ fun ParentPortalScreen(viewModel: DanceViewModel) {
                                 checkedThumbColor = Color.White,
                                 checkedTrackColor = Color(0xFF6366F1)
                             ),
-                            modifier = Modifier.testTag("toggle_night_mode_switch")
+                            modifier = Modifier
+                                .testTag("toggle_night_mode_switch")
+                                .dpadFocusable(RoundedCornerShape(16.dp))
                         )
                     }
 
@@ -427,6 +437,7 @@ fun ParentPortalScreen(viewModel: DanceViewModel) {
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .testTag("test_voice_guide_button")
+                                .dpadFocusable(RoundedCornerShape(12.dp))
                         ) {
                             Text(
                                 text = if (isSpeaking) "🛑 Stop Voice Preview" else "🔊 Test Voice Guide Coach",
@@ -495,6 +506,7 @@ fun ParentPortalScreen(viewModel: DanceViewModel) {
                                 .clickable { viewModel.changeAgeGroup(age) }
                                 .padding(10.dp)
                                 .testTag("stage_card_$age")
+                                .dpadFocusable(RoundedCornerShape(12.dp))
                         ) {
                             Row(verticalAlignment = Alignment.Top) {
                                 Icon(
@@ -573,7 +585,9 @@ fun ParentPortalScreen(viewModel: DanceViewModel) {
                                 checkedThumbColor = Color.White,
                                 checkedTrackColor = Color(0xFF914D5D)
                             ),
-                            modifier = Modifier.testTag("daily_reminder_switch")
+                            modifier = Modifier
+                                .testTag("daily_reminder_switch")
+                                .dpadFocusable(RoundedCornerShape(16.dp))
                         )
                     }
 
@@ -612,7 +626,9 @@ fun ParentPortalScreen(viewModel: DanceViewModel) {
                                         containerColor = if (isSelected) Color(0xFFFFD1DC) else Color(0xFFF1F5F9)
                                     ),
                                     shape = RoundedCornerShape(12.dp),
-                                    modifier = Modifier.weight(1f)
+                                    modifier = Modifier
+                                        .weight(1f)
+                                        .dpadFocusable(RoundedCornerShape(12.dp))
                                 ) {
                                     Text(
                                         text = "${if (h > 12) h - 12 else h}:${if (m == 0) "00" else m} ${if (h >= 12) "PM" else "AM"}",
@@ -631,7 +647,10 @@ fun ParentPortalScreen(viewModel: DanceViewModel) {
                             onClick = { viewModel.triggerTestNotification() },
                             colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFE2E8F0)),
                             shape = RoundedCornerShape(12.dp),
-                            modifier = Modifier.fillMaxWidth().testTag("test_notification_button")
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .testTag("test_notification_button")
+                                .dpadFocusable(RoundedCornerShape(12.dp))
                         ) {
                             Text(
                                 "🔔 Send Test Dance Nudge Notification",
@@ -899,7 +918,9 @@ fun ParentPortalScreen(viewModel: DanceViewModel) {
             ) {
                 TextButton(
                     onClick = { viewModel.resetAllProgress() },
-                    modifier = Modifier.testTag("reset_progress_button")
+                    modifier = Modifier
+                        .testTag("reset_progress_button")
+                        .dpadFocusable(RoundedCornerShape(12.dp))
                 ) {
                     Text("Reset All Progress", color = Color.Red, fontWeight = FontWeight.Bold)
                 }
@@ -908,7 +929,9 @@ fun ParentPortalScreen(viewModel: DanceViewModel) {
                     onClick = { viewModel.navigateTo("map") },
                     colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFFD1DC)),
                     shape = RoundedCornerShape(16.dp),
-                    modifier = Modifier.testTag("back_to_studio_button")
+                    modifier = Modifier
+                        .testTag("back_to_studio_button")
+                        .dpadFocusable(RoundedCornerShape(16.dp))
                 ) {
                     Text("Back to Studio", color = Color(0xFF914D5D), fontWeight = FontWeight.Bold)
                 }

@@ -364,7 +364,9 @@ fun LessonLibraryScreen(
                                     borderColor = GlassBorderPink,
                                     selectedBorderColor = if (level == "Favorites") Color(0xFFE11D48) else CheerfulPrimaryPink
                                 ),
-                                modifier = Modifier.testTag("filter_level_${level.replace(" ", "_")}")
+                                modifier = Modifier
+                                    .testTag("filter_level_${level.replace(" ", "_")}")
+                                    .dpadFocusable(RoundedCornerShape(12.dp))
                             )
                         }
                     }
@@ -405,7 +407,9 @@ fun LessonLibraryScreen(
                                     containerColor = Color.White.copy(alpha = 0.6f),
                                     labelColor = TextCharcoal
                                 ),
-                                modifier = Modifier.testTag("filter_status_$status")
+                                modifier = Modifier
+                                    .testTag("filter_status_$status")
+                                    .dpadFocusable(RoundedCornerShape(10.dp))
                             )
                         }
                     }
@@ -551,6 +555,7 @@ fun DanceLessonCard(
             .fillMaxWidth()
             .clickable(onClick = onPlay)
             .testTag("lesson_card_${lesson.id}")
+            .dpadFocusable(RoundedCornerShape(22.dp))
     ) {
         Column(modifier = Modifier.padding(14.dp)) {
             Row(
@@ -805,7 +810,9 @@ fun DanceLessonCard(
                         ),
                         shape = RoundedCornerShape(12.dp),
                         contentPadding = PaddingValues(horizontal = 14.dp, vertical = 8.dp),
-                        modifier = Modifier.testTag("play_button_${lesson.id}")
+                        modifier = Modifier
+                            .testTag("play_button_${lesson.id}")
+                            .dpadFocusable(RoundedCornerShape(12.dp))
                     ) {
                         Icon(
                             imageVector = Icons.Default.PlayArrow,
