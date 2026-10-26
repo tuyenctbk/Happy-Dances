@@ -2,6 +2,7 @@ package com.example
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
@@ -519,6 +520,18 @@ class MainActivity : ComponentActivity() {
                 modifier = contentModifier,
                 contentAlignment = Alignment.TopCenter
             ) {
+                if (currentScreen != "map") {
+                    BackHandler {
+                        if (currentScreen == "lesson" || currentScreen == "intro_level") {
+                            viewModel.navigateTo("map")
+                        } else if (currentScreen == "story_mode") {
+                            viewModel.navigateTo("story_mode_entry")
+                        } else {
+                            viewModel.navigateTo("map")
+                        }
+                    }
+                }
+
                 when (currentScreen) {
                     "intro_level" -> IntroLevelSelectionScreen(
                         viewModel = viewModel,
