@@ -6,23 +6,31 @@ import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.Crossfade
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.slideOutVertically
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -237,6 +245,61 @@ class MainActivity : ComponentActivity() {
     }
 
     @Composable
+    private fun RowScope.DanceNavItem(
+        selected: Boolean,
+        onClick: () -> Unit,
+        icon: androidx.compose.ui.graphics.vector.ImageVector,
+        label: String,
+        testTag: String,
+        selectedColor: Color,
+        indicatorColor: Color
+    ) {
+        val iconScale by animateFloatAsState(
+            targetValue = if (selected) 1.18f else 1.0f,
+            animationSpec = spring(
+                dampingRatio = Spring.DampingRatioMediumBouncy,
+                stiffness = Spring.StiffnessLow
+            ),
+            label = "nav_item_scale"
+        )
+
+        NavigationBarItem(
+            selected = selected,
+            onClick = onClick,
+            icon = {
+                Icon(
+                    imageVector = icon,
+                    contentDescription = label,
+                    modifier = Modifier.graphicsLayer(scaleX = iconScale, scaleY = iconScale)
+                )
+            },
+            label = {
+                Text(
+                    text = label,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                    softWrap = false,
+                    style = MaterialTheme.typography.labelSmall.copy(
+                        fontSize = 10.sp,
+                        fontWeight = if (selected) FontWeight.Bold else FontWeight.Medium
+                    )
+                )
+            },
+            alwaysShowLabel = false,
+            colors = NavigationBarItemDefaults.colors(
+                selectedIconColor = selectedColor,
+                selectedTextColor = selectedColor,
+                indicatorColor = indicatorColor,
+                unselectedIconColor = Color(0xFF64748B),
+                unselectedTextColor = Color(0xFF64748B)
+            ),
+            modifier = Modifier
+                .testTag(testTag)
+                .dpadFocusable(RoundedCornerShape(12.dp))
+        )
+    }
+
+    @Composable
     fun MainAppContent() {
         val currentScreen by viewModel.currentScreen.collectAsState()
         val isFullscreenActivity = currentScreen == "lesson" || currentScreen == "story_mode" || currentScreen == "intro_level"
@@ -316,190 +379,64 @@ class MainActivity : ComponentActivity() {
                             containerColor = if (isStorytelling) Color.White.copy(alpha = 0.95f) else Color(0xFFF8FAFC),
                             tonalElevation = 4.dp
                         ) {
-                        NavigationBarItem(
+                        DanceNavItem(
                             selected = currentScreen == "map",
                             onClick = { viewModel.navigateTo("map") },
-                            icon = {
-                                Icon(
-                                    imageVector = Icons.Default.Map,
-                                    contentDescription = if (isStorytelling) "Story Map" else "Academy Studio"
-                                )
-                            },
-                            label = {
-                                Text(
-                                    text = if (isStorytelling) "Story Map" else "Academy",
-                                    maxLines = 1,
-                                    overflow = TextOverflow.Ellipsis,
-                                    softWrap = false,
-                                    style = MaterialTheme.typography.labelSmall.copy(fontSize = 10.sp)
-                                )
-                            },
-                            alwaysShowLabel = false,
-                            colors = NavigationBarItemDefaults.colors(
-                                selectedIconColor = if (isStorytelling) Color(0xFF914D5D) else Color(0xFF1E40AF),
-                                selectedTextColor = if (isStorytelling) Color(0xFF914D5D) else Color(0xFF1E40AF),
-                                indicatorColor = if (isStorytelling) Color(0xFFFFD1DC) else Color(0xFFDBEAFE),
-                                unselectedIconColor = Color(0xFF64748B),
-                                unselectedTextColor = Color(0xFF64748B)
-                            ),
-                            modifier = Modifier
-                                .testTag("nav_map_tab")
-                                .dpadFocusable(RoundedCornerShape(12.dp))
+                            icon = Icons.Default.Map,
+                            label = if (isStorytelling) "Story Map" else "Academy",
+                            testTag = "nav_map_tab",
+                            selectedColor = if (isStorytelling) Color(0xFF914D5D) else Color(0xFF1E40AF),
+                            indicatorColor = if (isStorytelling) Color(0xFFFFD1DC) else Color(0xFFDBEAFE)
                         )
 
-                        NavigationBarItem(
+                        DanceNavItem(
                             selected = currentScreen == "library",
                             onClick = { viewModel.navigateTo("library") },
-                            icon = {
-                                Icon(
-                                    imageVector = Icons.Default.VideoLibrary,
-                                    contentDescription = "Studio Dashboard"
-                                )
-                            },
-                            label = {
-                                Text(
-                                    text = "Dashboard",
-                                    maxLines = 1,
-                                    overflow = TextOverflow.Ellipsis,
-                                    softWrap = false,
-                                    style = MaterialTheme.typography.labelSmall.copy(fontSize = 10.sp)
-                                )
-                            },
-                            alwaysShowLabel = false,
-                            colors = NavigationBarItemDefaults.colors(
-                                selectedIconColor = Color(0xFFFF5286),
-                                selectedTextColor = Color(0xFFFF5286),
-                                indicatorColor = Color(0xFFFFD9E2),
-                                unselectedIconColor = Color(0xFF64748B),
-                                unselectedTextColor = Color(0xFF64748B)
-                            ),
-                            modifier = Modifier
-                                .testTag("nav_library_tab")
-                                .dpadFocusable(RoundedCornerShape(12.dp))
+                            icon = Icons.Default.VideoLibrary,
+                            label = "Dashboard",
+                            testTag = "nav_library_tab",
+                            selectedColor = Color(0xFFFF5286),
+                            indicatorColor = Color(0xFFFFD9E2)
                         )
 
-                        NavigationBarItem(
+                        DanceNavItem(
                             selected = currentScreen == "story_mode_entry",
                             onClick = { viewModel.navigateTo("story_mode_entry") },
-                            icon = {
-                                Icon(
-                                    imageVector = Icons.Default.AutoStories,
-                                    contentDescription = if (isStorytelling) "Story Mode" else "Stories & Tales"
-                                )
-                            },
-                            label = {
-                                Text(
-                                    text = if (isStorytelling) "Story Mode" else "Tales",
-                                    maxLines = 1,
-                                    overflow = TextOverflow.Ellipsis,
-                                    softWrap = false,
-                                    style = MaterialTheme.typography.labelSmall.copy(fontSize = 10.sp)
-                                )
-                            },
-                            alwaysShowLabel = false,
-                            colors = NavigationBarItemDefaults.colors(
-                                selectedIconColor = if (isStorytelling) Color(0xFF914D5D) else Color(0xFF1E40AF),
-                                selectedTextColor = if (isStorytelling) Color(0xFF914D5D) else Color(0xFF1E40AF),
-                                indicatorColor = if (isStorytelling) Color(0xFFFFD1DC) else Color(0xFFDBEAFE),
-                                unselectedIconColor = Color(0xFF64748B),
-                                unselectedTextColor = Color(0xFF64748B)
-                            ),
-                            modifier = Modifier
-                                .testTag("nav_story_tab")
-                                .dpadFocusable(RoundedCornerShape(12.dp))
+                            icon = Icons.Default.AutoStories,
+                            label = if (isStorytelling) "Story Mode" else "Tales",
+                            testTag = "nav_story_tab",
+                            selectedColor = if (isStorytelling) Color(0xFF914D5D) else Color(0xFF1E40AF),
+                            indicatorColor = if (isStorytelling) Color(0xFFFFD1DC) else Color(0xFFDBEAFE)
                         )
 
-                        NavigationBarItem(
+                        DanceNavItem(
                             selected = currentScreen == "avatar",
                             onClick = { viewModel.navigateTo("avatar") },
-                            icon = {
-                                Icon(
-                                    imageVector = Icons.Default.Face,
-                                    contentDescription = "My Avatar"
-                                )
-                            },
-                            label = {
-                                Text(
-                                    text = if (isStorytelling) "Tiny Dancer" else "Avatar",
-                                    maxLines = 1,
-                                    overflow = TextOverflow.Ellipsis,
-                                    softWrap = false,
-                                    style = MaterialTheme.typography.labelSmall.copy(fontSize = 10.sp)
-                                )
-                            },
-                            alwaysShowLabel = false,
-                            colors = NavigationBarItemDefaults.colors(
-                                selectedIconColor = if (isStorytelling) Color(0xFF914D5D) else Color(0xFF1E40AF),
-                                selectedTextColor = if (isStorytelling) Color(0xFF914D5D) else Color(0xFF1E40AF),
-                                indicatorColor = if (isStorytelling) Color(0xFFFFD1DC) else Color(0xFFAEC6CF),
-                                unselectedIconColor = Color(0xFF64748B),
-                                unselectedTextColor = Color(0xFF64748B)
-                            ),
-                            modifier = Modifier
-                                .testTag("nav_avatar_tab")
-                                .dpadFocusable(RoundedCornerShape(12.dp))
+                            icon = Icons.Default.Face,
+                            label = if (isStorytelling) "Tiny Dancer" else "Avatar",
+                            testTag = "nav_avatar_tab",
+                            selectedColor = if (isStorytelling) Color(0xFF914D5D) else Color(0xFF1E40AF),
+                            indicatorColor = if (isStorytelling) Color(0xFFFFD1DC) else Color(0xFFAEC6CF)
                         )
 
-                        NavigationBarItem(
+                        DanceNavItem(
                             selected = currentScreen == "passport",
                             onClick = { viewModel.navigateTo("passport") },
-                            icon = {
-                                Icon(
-                                    imageVector = Icons.Default.Star,
-                                    contentDescription = "My Passport"
-                                )
-                            },
-                            label = {
-                                Text(
-                                    text = if (isStorytelling) "Stickers" else "Passport",
-                                    maxLines = 1,
-                                    overflow = TextOverflow.Ellipsis,
-                                    softWrap = false,
-                                    style = MaterialTheme.typography.labelSmall.copy(fontSize = 10.sp)
-                                )
-                            },
-                            alwaysShowLabel = false,
-                            colors = NavigationBarItemDefaults.colors(
-                                selectedIconColor = Color(0xFF92400E),
-                                selectedTextColor = Color(0xFF92400E),
-                                indicatorColor = Color(0xFFFFE082), // LemonYellow
-                                unselectedIconColor = Color(0xFF64748B),
-                                unselectedTextColor = Color(0xFF64748B)
-                            ),
-                            modifier = Modifier
-                                .testTag("nav_passport_tab")
-                                .dpadFocusable(RoundedCornerShape(12.dp))
+                            icon = Icons.Default.Star,
+                            label = if (isStorytelling) "Stickers" else "Passport",
+                            testTag = "nav_passport_tab",
+                            selectedColor = Color(0xFF92400E),
+                            indicatorColor = Color(0xFFFFE082)
                         )
 
-                        NavigationBarItem(
+                        DanceNavItem(
                             selected = currentScreen == "parent",
                             onClick = { viewModel.navigateTo("parent") },
-                            icon = {
-                                Icon(
-                                    imageVector = Icons.Default.Settings,
-                                    contentDescription = "Parent Portal"
-                                )
-                            },
-                            label = {
-                                Text(
-                                    text = "Parents",
-                                    maxLines = 1,
-                                    overflow = TextOverflow.Ellipsis,
-                                    softWrap = false,
-                                    style = MaterialTheme.typography.labelSmall.copy(fontSize = 10.sp)
-                                )
-                            },
-                            alwaysShowLabel = false,
-                            colors = NavigationBarItemDefaults.colors(
-                                selectedIconColor = Color(0xFF334155),
-                                selectedTextColor = Color(0xFF334155),
-                                indicatorColor = Color(0xFFE2E8F0),
-                                unselectedIconColor = Color(0xFF64748B),
-                                unselectedTextColor = Color(0xFF64748B)
-                            ),
-                            modifier = Modifier
-                                .testTag("nav_parents_tab")
-                                .dpadFocusable(RoundedCornerShape(12.dp))
+                            icon = Icons.Default.Settings,
+                            label = "Parents",
+                            testTag = "nav_parents_tab",
+                            selectedColor = Color(0xFF334155),
+                            indicatorColor = Color(0xFFE2E8F0)
                         )
                     }
                     }
@@ -532,32 +469,72 @@ class MainActivity : ComponentActivity() {
                     }
                 }
 
-                when (currentScreen) {
-                    "intro_level" -> IntroLevelSelectionScreen(
-                        viewModel = viewModel,
-                        onCompleted = { viewModel.navigateTo("map") }
-                    )
-                    "map" -> MapScreen(
-                        viewModel = viewModel,
-                        onNavigateToLibrary = { viewModel.navigateTo("library") },
-                        onNavigateToLesson = { lesson -> viewModel.selectLesson(lesson) },
-                        onNavigateToIntroLevel = { viewModel.navigateTo("intro_level") }
-                    )
-                    "library" -> LessonLibraryScreen(
-                        viewModel = viewModel,
-                        onSelectLesson = { lesson -> viewModel.selectLesson(lesson) }
-                    )
-                    "story_mode", "story_mode_entry", "curriculum_graph" -> DanceNavigationGraph(
-                        viewModel = viewModel,
-                        onBackToMap = { viewModel.navigateTo("map") }
-                    )
-                    "avatar" -> AvatarScreen(viewModel)
-                    "passport" -> PassportScreen(viewModel)
-                    "parent" -> ParentPortalScreen(viewModel)
-                    "lesson" -> {
-                        activeLesson?.let { lesson ->
-                            LessonScreen(viewModel = viewModel, lesson = lesson)
-                        } ?: MapScreen(viewModel)
+                AnimatedContent(
+                    targetState = currentScreen,
+                    transitionSpec = {
+                        val tabOrder = listOf("map", "library", "story_mode_entry", "curriculum_graph", "avatar", "passport", "parent")
+                        val initialIdx = tabOrder.indexOf(initialState)
+                        val targetIdx = tabOrder.indexOf(targetState)
+
+                        if (targetState == "lesson" || initialState == "lesson" ||
+                            targetState == "intro_level" || initialState == "intro_level" ||
+                            targetState == "story_mode" || initialState == "story_mode") {
+                            (slideInVertically(
+                                initialOffsetY = { it / 4 },
+                                animationSpec = tween(320, easing = FastOutSlowInEasing)
+                            ) + fadeIn(animationSpec = tween(300)))
+                            .togetherWith(
+                                slideOutVertically(
+                                    targetOffsetY = { -it / 4 },
+                                    animationSpec = tween(260, easing = FastOutSlowInEasing)
+                                ) + fadeOut(animationSpec = tween(200))
+                            )
+                        } else if (initialIdx >= 0 && targetIdx >= 0 && initialIdx != targetIdx) {
+                            val direction = if (targetIdx > initialIdx) 1 else -1
+                            (slideInHorizontally(
+                                initialOffsetX = { it / 3 * direction },
+                                animationSpec = tween(300, easing = FastOutSlowInEasing)
+                            ) + fadeIn(animationSpec = tween(280)))
+                            .togetherWith(
+                                slideOutHorizontally(
+                                    targetOffsetX = { -it / 3 * direction },
+                                    animationSpec = tween(260, easing = FastOutSlowInEasing)
+                                ) + fadeOut(animationSpec = tween(200))
+                            )
+                        } else {
+                            fadeIn(animationSpec = tween(300)).togetherWith(fadeOut(animationSpec = tween(200)))
+                        }
+                    },
+                    label = "screen_transition",
+                    modifier = Modifier.fillMaxSize()
+                ) { targetScreen ->
+                    when (targetScreen) {
+                        "intro_level" -> IntroLevelSelectionScreen(
+                            viewModel = viewModel,
+                            onCompleted = { viewModel.navigateTo("map") }
+                        )
+                        "map" -> MapScreen(
+                            viewModel = viewModel,
+                            onNavigateToLibrary = { viewModel.navigateTo("library") },
+                            onNavigateToLesson = { lesson -> viewModel.selectLesson(lesson) },
+                            onNavigateToIntroLevel = { viewModel.navigateTo("intro_level") }
+                        )
+                        "library" -> LessonLibraryScreen(
+                            viewModel = viewModel,
+                            onSelectLesson = { lesson -> viewModel.selectLesson(lesson) }
+                        )
+                        "story_mode", "story_mode_entry", "curriculum_graph" -> DanceNavigationGraph(
+                            viewModel = viewModel,
+                            onBackToMap = { viewModel.navigateTo("map") }
+                        )
+                        "avatar" -> AvatarScreen(viewModel)
+                        "passport" -> PassportScreen(viewModel)
+                        "parent" -> ParentPortalScreen(viewModel)
+                        "lesson" -> {
+                            activeLesson?.let { lesson ->
+                                LessonScreen(viewModel = viewModel, lesson = lesson)
+                            } ?: MapScreen(viewModel)
+                        }
                     }
                 }
 

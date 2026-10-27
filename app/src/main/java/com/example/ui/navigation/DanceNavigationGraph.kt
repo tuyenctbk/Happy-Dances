@@ -1,8 +1,15 @@
 package com.example.ui.navigation
 
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.spring
+import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -37,11 +44,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.ui.DanceViewModel
+import com.example.ui.components.dpadFocusable
 import com.example.ui.screens.LessonLibraryScreen
 import com.example.ui.screens.StoryModeScreen
 import com.example.ui.screens.ToddlerStoryDanceScreen
@@ -90,9 +99,19 @@ fun DanceNavigationGraph(
             ) {
                 DanceCurriculumRoute.entries.forEach { route ->
                     val isSelected = activeRoute == route
+                    val tabScale by animateFloatAsState(
+                        targetValue = if (isSelected) 1.04f else 1.0f,
+                        animationSpec = spring(
+                            dampingRatio = Spring.DampingRatioMediumBouncy,
+                            stiffness = Spring.StiffnessLow
+                        ),
+                        label = "tab_scale"
+                    )
+
                     Box(
                         modifier = Modifier
                             .weight(1f)
+                            .graphicsLayer(scaleX = tabScale, scaleY = tabScale)
                             .clip(RoundedCornerShape(16.dp))
                             .background(
                                 if (isSelected) {
@@ -103,6 +122,7 @@ fun DanceNavigationGraph(
                                     }
                                 } else Color.Transparent
                             )
+                            .dpadFocusable(RoundedCornerShape(16.dp))
                             .clickable {
                                 activeRoute = route
                                 viewModel.saveLastSessionState(
@@ -141,10 +161,26 @@ fun DanceNavigationGraph(
             }
         }
 
-        // Active View Container
+        // Active View Container with directional slide + fade
         AnimatedContent(
             targetState = activeRoute,
-            transitionSpec = { fadeIn() togetherWith fadeOut() },
+            transitionSpec = {
+                val entries = DanceCurriculumRoute.entries
+                val initialIdx = entries.indexOf(initialState)
+                val targetIdx = entries.indexOf(targetState)
+                val direction = if (targetIdx >= initialIdx) 1 else -1
+
+                (slideInHorizontally(
+                    initialOffsetX = { it / 3 * direction },
+                    animationSpec = tween(300, easing = FastOutSlowInEasing)
+                ) + fadeIn(animationSpec = tween(280)))
+                .togetherWith(
+                    slideOutHorizontally(
+                        targetOffsetX = { -it / 3 * direction },
+                        animationSpec = tween(260, easing = FastOutSlowInEasing)
+                    ) + fadeOut(animationSpec = tween(200))
+                )
+            },
             modifier = Modifier.weight(1f),
             label = "route_transition"
         ) { route ->
